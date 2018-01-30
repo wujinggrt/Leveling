@@ -28,7 +28,8 @@ class:DllLeveling
 		, int back_blackface
 		, int front_blackface
 		, int back_redface
-		, int front_redface) {
+		, int front_redface) 
+	{
 		return leveling_ptr->CSharpDealData(back_above
 			, back_below
 			, front_above
@@ -48,7 +49,8 @@ class:DllLeveling
 	    , int back_blackface
 	    , int front_blackface
 	    , int back_redface
-	    , int front_redface) {
+	    , int front_redface) 
+	{
 		return leveling_ptr->CSharpUpdateData(station_no
 			, back_above
 			, back_below
@@ -60,7 +62,8 @@ class:DllLeveling
 			, front_redface);
 	}
 
-	bool __stdcall DeleteData(Leveling* leveling_ptr, int station_no) {
+	bool __stdcall DeleteData(Leveling* leveling_ptr, int station_no) 
+	{
 		return leveling_ptr->CSharpDeleteData(station_no);
 	}
 
@@ -73,7 +76,8 @@ class:DllLeveling
 	    , int back_blackface
 	    , int front_blackface
 	    , int back_redface
-	    , int front_redface) {
+	    , int front_redface) 
+	{
 		return leveling_ptr->CSharpInsertData(station_no
 			, back_above
 			, back_below
@@ -105,75 +109,93 @@ class:DllLeveling
 		return leveling_ptr->CSharpGetStationCount();
 	}
 
-	int __stdcall GetBackAbove(Leveling* leveling_ptr) {
+	int __stdcall GetBackAbove(Leveling* leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetBackAbove();
 	}
 
-	int __stdcall GetBackBelow(Leveling * leveling_ptr) {
+	int __stdcall GetBackBelow(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetBackBelow();
 	}
 
-	int __stdcall GetBackBlackface(Leveling * leveling_ptr) {
+	int __stdcall GetBackBlackface(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetBackBlackFace();
 	}
 	
-	int __stdcall GetBackRedface(Leveling * leveling_ptr) {
+	int __stdcall GetBackRedface(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetBackRedFace();
 	}
 
-	int __stdcall GetFrontAbove(Leveling * leveling_ptr) {
+	int __stdcall GetFrontAbove(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetFrontAbove();
 	}
 
-	int __stdcall GetFrontBelow(Leveling * leveling_ptr) {
+	int __stdcall GetFrontBelow(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetFrontBelow();
 	}
 
-	int __stdcall GetFrontBlackface(Leveling * leveling_ptr) {
+	int __stdcall GetFrontBlackface(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetFrontBlackFace();
 	}
 
-	int __stdcall GetFrontRedface(Leveling * leveling_ptr) {
+	int __stdcall GetFrontRedface(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetFrontRedFace();
 	}
 
-	int __stdcall GetBackDistance(Leveling * leveling_ptr) {
+	int __stdcall GetBackDistance(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetBackDistance();
 	}
 
-	int __stdcall GetFrontDistance(Leveling * leveling_ptr){
+	int __stdcall GetFrontDistance(Leveling * leveling_ptr)
+	{
 		return leveling_ptr->CSharpGetFrontDistance();
 	}
 
-	int __stdcall GetSightDistanceDifference(Leveling * leveling_ptr) {
+	int __stdcall GetSightDistanceDifference(Leveling * leveling_ptr)
+	{
 		return leveling_ptr->CSharpGetSightDistanceDifference();
 	}
 
-	int __stdcall GetAccumulationSightDistanceDifference(Leveling * leveling_ptr) {
+	int __stdcall GetAccumulationSightDistanceDifference(Leveling * leveling_ptr)
+	{
 		return leveling_ptr->CSharpGetAccumulationSightDistanceDifference();
 	}
 
-	int __stdcall GetBackKBlackRed(Leveling * leveling_ptr) {
+	int __stdcall GetBackKBlackRed(Leveling * leveling_ptr)
+	{
 		return leveling_ptr->CSharpGetBackKBlackRed();
 	}
 
-	int __stdcall GetFrontKBlackRed(Leveling * leveling_ptr) {
+	int __stdcall GetFrontKBlackRed(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetFrontKBlackRed();
 	}
 
-	int __stdcall GetBlackfaceBackFront(Leveling * leveling_ptr) {
+	int __stdcall GetBlackfaceBackFront(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetBlackfaceBackFront();
 	}
 
-	int __stdcall GetRedfaceBackFront(Leveling * leveling_ptr) {
+	int __stdcall GetRedfaceBackFront(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetRedfaceBackFront();
 	}
 
-	int __stdcall GetBackFront(Leveling * leveling_ptr) {
+	int __stdcall GetBackFront(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetBackFront();
 	}
 
-	double __stdcall GetMean(Leveling * leveling_ptr) {
+	double __stdcall GetMean(Leveling * leveling_ptr) 
+	{
 		return leveling_ptr->CSharpGetMean();
 	}
 

@@ -340,11 +340,10 @@ Leveling
 		while (sp != data_head)
 		{
 			dataFile.setf(ios::left);
-			dataFile << "\n\n ";
+			dataFile << "\n\n  ";
 			dataFile << " 第  ";
 			dataFile << count;
 			dataFile << "  站\n";
-			// 为了OOP，封装
 			OutputData(sp, dataFile);
 			//强行写入，不关闭文件
 			dataFile.flush();
@@ -365,79 +364,98 @@ Leveling
 		return true;
 	}
 	
-	int Leveling::CSharpGetStationCount() const {
+	int Leveling::CSharpGetStationCount() const 
+	{
 		return station_count;
 	}
 
-    int Leveling::CSharpGetBackAbove() const {
+    int Leveling::CSharpGetBackAbove() const 
+	{
 		return data_prev->back_above;
 	}
 
-	int Leveling::CSharpGetBackBelow() const {
+	int Leveling::CSharpGetBackBelow() const 
+	{
 		return data_prev->back_below;
 	}
 
-	int Leveling::CSharpGetBackBlackFace() const {
+	int Leveling::CSharpGetBackBlackFace() const 
+	{
 		return data_prev->back_blackface;
 	}
     
-	int Leveling::CSharpGetBackRedFace() const {
+	int Leveling::CSharpGetBackRedFace() const 
+	{
 		return data_prev->back_redface;
 	}
     
-	int Leveling::CSharpGetFrontAbove() const {
+	int Leveling::CSharpGetFrontAbove() const 
+	{
 		return data_prev->front_above;
 	}
     
-	int Leveling::CSharpGetFrontBelow() const {
+	int Leveling::CSharpGetFrontBelow() const 
+	{
 		return data_prev->front_below;
 	}
     
-	int Leveling::CSharpGetFrontBlackFace() const {
+	int Leveling::CSharpGetFrontBlackFace() const 
+	{
 		return data_prev->front_blackface;
 	}
     
-	int Leveling::CSharpGetFrontRedFace() const {
+	int Leveling::CSharpGetFrontRedFace() const 
+	{
 		return data_prev->front_redface;
 	}
     
-	int Leveling::CSharpGetBackDistance() const {
+	int Leveling::CSharpGetBackDistance() const 
+	{
 		return data_prev->back_distance;
 	}
 
-	int Leveling::CSharpGetFrontDistance() const {
+	int Leveling::CSharpGetFrontDistance() const 
+	{
 		return data_prev->front_distance;
 	}
 
-	int Leveling::CSharpGetSightDistanceDifference() const {
+	int Leveling::CSharpGetSightDistanceDifference() const 
+	{
 		return data_prev->sight_distance_difference;
 	}
 
-	int Leveling::CSharpGetAccumulationSightDistanceDifference() const {
+	int Leveling::CSharpGetAccumulationSightDistanceDifference() const 
+	{
 		return data_prev->accumulation_sight_distance_difference;
 	}
 
-	int Leveling::CSharpGetBackKBlackRed() const {
+	int Leveling::CSharpGetBackKBlackRed() const 
+	{
 		return data_prev->back_subtraction_of_K_plus_blackface_and_redface;
 	}
 
-	int Leveling::CSharpGetFrontKBlackRed() const {
+	int Leveling::CSharpGetFrontKBlackRed() const 
+	{
 		return data_prev->front_subtraction_of_K_plus_blackface_and_redface;
 	}
 
-	int Leveling::CSharpGetBlackfaceBackFront() const {
+	int Leveling::CSharpGetBlackfaceBackFront() const 
+	{
 		return data_prev->subtraction_of_blackface_of_back_and_front;
 	}
 
-	int Leveling::CSharpGetRedfaceBackFront() const {
+	int Leveling::CSharpGetRedfaceBackFront() const 
+	{
 		return data_prev->subtraction_of_redface_of_back_and_front;
 	}
 
-	int Leveling::CSharpGetBackFront() const {
+	int Leveling::CSharpGetBackFront() const 
+	{
 		return data_prev->subtraction_of_back_and_front;
 	}
 
-	double Leveling::CSharpGetMean() const {
+	double Leveling::CSharpGetMean() const 
+	{
 		return data_prev->mean;
 	}
 
@@ -616,20 +634,23 @@ Leveling
 			// 类型转化，去掉小数点之后的数
 			num = static_cast<int>(num * numPower / 10);
 			num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
-		} 		else if (numTemp == 5)
-{
-			numTemp = static_cast<int>(num * numPowerTemp) % 100;
-		if (numTemp % 2 == 0)
+		} 		
+		else if (numTemp == 5)
 		{
-			num = static_cast<int>(num * numPower / 10);
-			num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
-		} 		else
-{
-			num = static_cast<int>(num * numPower / 10) + 1;
-		num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
-	}
-		} 		else if (numTemp > 6)
-{
+			numTemp = static_cast<int>(num * numPowerTemp) % 100;
+			if (numTemp % 2 == 0)
+			{
+				num = static_cast<int>(num * numPower / 10);
+				num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
+			} 		
+			else
+			{
+				num = static_cast<int>(num * numPower / 10) + 1;
+				num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
+			}
+		} 		
+		else if (numTemp > 6)
+		{
 			num = static_cast<int>(num * numPower / 10) + 1;
 			num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
 		}
