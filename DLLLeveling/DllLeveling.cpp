@@ -16,7 +16,8 @@ namespace wj{
 class:DllLeveling
 ********************************************************/
 
-	Leveling * __stdcall CreateLeveling() {
+	Leveling * __stdcall CreateLeveling() 
+	{
 		return new Leveling();
 	}
 

@@ -83,7 +83,8 @@ Leveling
 		, int back_blackface
 	    , int front_blackface
 	    , int back_redface
-	    , int front_redface) {
+	    , int front_redface) 
+	{
 		data_next = make_shared<LevelingData>();
 		// 输入顺序：
 		// 1.后视尺：上丝， 2。后视尺：下丝，3.前视尺：上丝，4.前视尺：下丝，
@@ -155,7 +156,8 @@ Leveling
 			return false;
 		}
         auto sp = data_head;
-        for(int i = 0; i < station_count; ++i) {
+        for(int i = 0; i < station_count; ++i) 
+		{
             sp = sp->next;
         if(i == station_no - 1) {
             sp->back_above = back_above;
