@@ -98,21 +98,37 @@ Leveling
 		data_next->front_redface = front_redface;
 		// overflow
 		if (!Range(data_next->back_above))
+		{
 			return false;
-		if (!Range(data_next->back_below)) 
+		}
+		if (!Range(data_next->back_below))
+		{
 			return false;
-		if (!Range(data_next->front_above)) 
+		}
+		if (!Range(data_next->front_above))
+		{
 			return false;
-		if (!Range(data_next->front_below)) 
+		}
+		if (!Range(data_next->front_below))
+		{
 			return false;
-		if (!Range(data_next->back_blackface)) 
+		}
+		if (!Range(data_next->back_blackface))
+		{
 			return false;
-		if (!Range(data_next->front_blackface)) 
+		}
+		if (!Range(data_next->front_blackface))
+		{
 			return false;
-		if (!Range(data_next->back_redface)) 
+		}
+		if (!Range(data_next->back_redface))
+		{
 			return false;
-		if (!Range(data_next->front_redface)) 
+		}
+		if (!Range(data_next->front_redface))
+		{
 			return false;
+		}
 		ComputeData(data_next);
 		// 在最后结束的时候，
 		// 最后的一个结点需要返回到哨兵
@@ -132,10 +148,12 @@ Leveling
 			, int back_blackface
 			, int front_blackface
 			, int back_redface
-			, int front_redface) {
-        if(station_no > station_count) {
-            return false;
-        }
+			, int front_redface) 
+	{
+		if (station_no > station_count)
+		{
+			return false;
+		}
         auto sp = data_head;
         for(int i = 0; i < station_count; ++i) {
             sp = sp->next;
@@ -155,21 +173,26 @@ Leveling
             ComputeData(sp);
 			data_prev = sp;
             }
-        if(i >= station_no) 
-            ComputeData(sp);
+		if (i >= station_no)
+		{
+			ComputeData(sp);
+		}
         }
         return true;
     }
 
-    bool Leveling::CSharpDeleteData(int station_no) {
+    bool Leveling::CSharpDeleteData(int station_no) 
+	{
 		if (station_no == 0 || station_no > station_count)
 		{
 			return false;
 		}
         auto sp = data_head;
-        for(int i = 0; i < station_count; ++i) {
+        for(int i = 0; i < station_count; ++i) 
+		{
             sp = sp->next;
-            if(i == station_no - 1) {
+            if(i == station_no - 1) 
+			{
                 // 在这个临时存储的累计视距差中，
                 // 减去将要删除的这一测站的视距差
                 temp_accumulation_sight_distance_difference 
@@ -187,8 +210,10 @@ Leveling
                 temp->next.reset();
                 ComputeData(sp);
             }
-            if(i >= station_no)
-                ComputeData(sp);
+			if (i >= station_no)
+			{
+				ComputeData(sp);
+			}
         }
 		--station_count;
         return true;
@@ -203,16 +228,20 @@ Leveling
 			, int front_blackface
 			, int back_redface
 			, int front_redface) {
-        if(station_no == 0 || station_no > station_count + 1)
-            return false;
+		if (station_no == 0 || station_no > station_count + 1)
+		{
+			return false;
+		}
         auto sp = data_head;
-        for(int i = 0; i < station_count; ++i) {
+        for(int i = 0; i < station_count; ++i) 
+		{
 			// 现在sp是第i + 1站的前一个
 			// if 完成的任务是：
 			// 在插入的测站之前，即是： data_prev data_insert data_this
 			// sp代表data_prev
 			// 在if末尾，sp赋值为data_insert
-            if(i == station_no - 1) {
+            if(i == station_no - 1)
+			{
                 auto data = make_shared<LevelingData>();
                 data->back_above = back_above;
                 data->back_below = back_below;
@@ -232,8 +261,10 @@ Leveling
                 sp = data;
 				data_prev = sp;
             }
-            if(i >= station_no)
-                ComputeData(sp->next);
+			if (i >= station_no)
+			{
+				ComputeData(sp->next);
+			}
             sp = sp->next;
         }
 		++station_count;
@@ -259,7 +290,9 @@ Leveling
 			// 用来保存读取的序号，1、2、3 ...
 			string temp;
 			if (data_file)
+			{
 				data_file >> temp;
+			}
 			data_file >> data_next->back_above
 				>> data_next->back_below
 				>> data_next->front_above
