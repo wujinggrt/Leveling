@@ -105,14 +105,23 @@ class:DllLeveling
 			, front_redface);
 	}
 
-	bool __stdcall DealTxtData(Leveling * pl, char * fileName)
+	bool __stdcall DealTxtData(Leveling * pl, const char * fileName)
 	{
 		return pl->CSharpDealTxtData(fileName);
 	}
 
-	bool __stdcall SaveTxt(Leveling * pl, char * fileName)
+	bool __stdcall SaveTxt(Leveling * pl, const char * fileName)
 	{
 		return pl->CSharpSaveTxt(fileName);
+	}
+
+	bool __stdcall ProcessInner(Leveling * pl, double beginHeight, double endHeight, int stationCount, const char * stationNo)
+	{
+		return pl->CSharpProcessInner(
+			beginHeight
+			, endHeight
+			, stationCount
+			, stationNo);
 	}
 
 	bool __stdcall Traverse(Leveling * pl)
@@ -213,6 +222,11 @@ class:DllLeveling
 	double __stdcall GetMean(Leveling * leveling_ptr) 
 	{
 		return leveling_ptr->CSharpGetMean();
+	}
+
+	bool __stdcall GetInnerData(Leveling * pl, char *& data)
+	{
+		return pl->CSharpGetInnerData(data);
 	}
 
 	bool __stdcall StopData(Leveling * leveling_ptr)

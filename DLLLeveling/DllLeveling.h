@@ -51,8 +51,14 @@ class:DllLeveling
 	    , int front_blackface
 	    , int back_redface
 	    , int front_redface);
-	DLL_API bool __stdcall DealTxtData(Leveling* pl, char* fileName);
-	DLL_API bool __stdcall SaveTxt(Leveling* pl, char* fileName);
+	DLL_API bool __stdcall DealTxtData(Leveling* pl, const char* fileName);
+	DLL_API bool __stdcall SaveTxt(Leveling* pl, const char* fileName);
+	DLL_API bool __stdcall ProcessInner(
+		Leveling* pl
+		, double beginHeight
+		, double endHeight
+		, int stationCount
+		, const char* stationNo);
 	// 如果存在下一个，data_prev指向它
 	DLL_API bool __stdcall Traverse(Leveling* pl);
 
@@ -96,7 +102,9 @@ class:DllLeveling
 	DLL_API int __stdcall GetBackFront(Leveling* leveling_ptr);
 	//get 高差中数
 	DLL_API double __stdcall GetMean(Leveling* leveling_ptr);
-	
+	DLL_API bool __stdcall GetInnerData(Leveling* pl, char* &data);
+
+
 	// 停止输入数据时，需要调用。
 	DLL_API bool __stdcall StopData(Leveling* leveling_ptr);
 	DLL_API void __stdcall DataPrevReset(Leveling* pl);

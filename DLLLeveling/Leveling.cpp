@@ -273,7 +273,7 @@ Leveling
         return true;
     }
 
-	bool Leveling::CSharpDealTxtData(char * fileName)
+	bool Leveling::CSharpDealTxtData(const char * fileName)
 	{
 		if (fileName == nullptr)
 		{
@@ -354,7 +354,7 @@ Leveling
 		return true;
 	}
 
-	bool Leveling::CSharpSaveTxt(char * fileName)
+	bool Leveling::CSharpSaveTxt(const char * fileName)
 	{
 		if (fileName == nullptr || fileName == NULL || fileName == "")
 		{
@@ -398,8 +398,74 @@ Leveling
 		data_prev = data_prev->next;
 		return true;
 	}
-	
-	int Leveling::CSharpGetStationCount() const 
+
+	bool Leveling::CSharpProcessInner(
+		double beginHeight
+		, int endHeight
+		, int stationCount
+		, const char* stationNo)
+	{
+		bool b_temp = CSharpProcessInner(beginHeight, endHeight);
+		if (!b_temp)
+		{
+			return false;
+		}
+		// return true
+		b_temp = CSharpProcessCorrection(stationCount, stationNo);
+		if (!b_temp)
+		{
+			return false;
+		}
+		// return true
+		b_temp = CSharpComputeWeight(3);
+		if (!b_temp)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	bool Leveling::CSharpGetInnerData(char *& data)
+	{
+		// for test
+		// 1 2 3 4 5 6 7 8 9 10 11 12
+		string s_temp;
+		// 在WinForm中，头行（即是包含起始站号和高程第一行）已经输出
+		// 不用在写入
+		// 第*status + 1测段数据
+		/*if (!distance_of_subsegment.empty())
+		return true;
+		for (auto &e : distance_of_subsegment)
+		{
+		s_temp += to_string(e);
+		s_temp += " ";
+		}
+		strcpy_s(data, s_temp.size() + 1, s_temp.c_str());
+		return true;*/
+		bool b_temp;
+		if (status < station_segment)
+		{
+			b_temp = CSharpSaveBodyInnerInfoToString(s_temp);
+			++status;
+			if (b_temp)
+			{
+				strcpy_s(data, s_temp.size() + 1, s_temp.c_str());
+				return true;
+			} else
+			{
+				return false;
+			}
+		}
+		b_temp = CSharpSaveEndInnerInfoToString(s_temp);
+		if (b_temp)
+		{
+			strcpy_s(data, s_temp.size() + 1, s_temp.c_str());
+		}
+		status = 0;
+		return false;
+	}
+
+	int Leveling::CSharpGetStationCount() const
 	{
 		return station_count;
 	}
@@ -699,5 +765,271 @@ Leveling
 			return false;
 		return true;
 	}
-	
+
+	bool Leveling::CSharpProcessInner(double beginHeight
+		, int endHeight)
+	{
+		// 输入起始高程
+		start_height = beginHeight;
+		end_height = endHeight;
+		auto sp = data_head->next;
+		// empty data
+		if (!sp)
+		{
+			return false;
+		}
+		// 初始化临时高差（mm)
+		temp_observation_elevation_difference
+			= 0;
+		// 遍历所有node，计算高差
+		for (int i = 0; i < station_count && sp != data_head; i++)
+		{
+			//临时(mm),4舍6入5取偶?
+			temp_observation_elevation_difference
+				+= sp->mean;
+			//距离(m)
+			distance
+				+= (static_cast<double>(sp->front_distance)
+					+ static_cast<double>(sp->back_distance))
+				/ 10;
+			sp = sp->next;
+		}
+		//高差（m）
+		accumulation_of_observation_elevation_difference
+			= static_cast<double>(
+				temp_observation_elevation_difference)
+			/ 1000;
+		//高程闭合差(mm)
+		closure
+			= (accumulation_of_observation_elevation_difference
+				- end_height
+				+ start_height)
+			* 1000;
+		//改正数(mm)
+		correction = -closure;
+
+		return true;
+	}
+
+	bool Leveling::CSharpProcessCorrection(int stationCount, const char* stationNo)
+	{
+		// 测段数
+		station_segment = stationCount;
+		// 输入每一测段的最后站序号, 用空格将每一组数据隔开
+		// 一共有segment + 1 个站点,但是除掉第1个初始站点，也就只剩下segmentNumber个站点
+		string s(stationNo);
+		istringstream is(s);
+		int station_num;
+		for (int i = 0; i < station_segment; i++)
+		{
+			is >> station_num;
+			station.push_back(station_num);
+		}
+		auto sp = data_head->next;
+		if (!sp)
+		{
+			// 需要先输入数据
+			return false;
+		}
+		// 记录每一段的，最后存入到subDistance中
+		double temp_distance = 0.0;
+		// 记录每一段的高差，存入subObserveElevationDifference中;
+		double temp_for_elev = 0.0;
+		// 写入每段距离、每段高差的数据，存入数组
+		for (int i = 0, j = 0; i < station_count && sp != data_head; i++)
+		{
+			temp_distance
+				+= (static_cast<double>(sp->front_distance)
+					+ static_cast<double>(sp->back_distance))
+				/ 10;
+			temp_for_elev
+				+= static_cast<double>(sp->mean)
+				/ 1000;
+			if (i == station[j] - 1)
+			{
+				// 存储这一的测段距离(m)
+				distance_of_subsegment.push_back(temp_distance);
+				// 存储这一段的高差
+				observation_elevation_difference_of_subsegment.push_back(temp_for_elev);
+				// 重置测段距离
+				temp_distance = 0;
+				// 重置测段高差
+				temp_for_elev = 0;
+				j++;
+			}
+			sp = sp->next;
+		}
+		// 写入每段高差改正数、每段改正后高差，存入数组
+		for (int i = 0; i < station_segment; i++)
+		{
+			// vi
+			correction_of_subsegment
+				.push_back(ReserveDecimal(
+					correction * distance_of_subsegment[i]
+					/ distance
+					, 3));
+			// hi = hi + vi
+			corrected_observation_elevation_difference_of_subsegment
+				.push_back(ReserveDecimal((
+					correction_of_subsegment[i]
+					/ 1000)
+					// hi,观测,由mean得来
+					+ observation_elevation_difference_of_subsegment[i]
+					, 3)
+				);
+		}
+		for (int i = 0; i <= station_segment; i++)
+		{
+			if (i == 0)
+			{
+				height.push_back(start_height);
+				continue;
+			}
+			// if (i == station_segment)
+			// {
+			//     height.push_back(end_height);
+			//     continue;
+			// }
+			height.push_back(
+				corrected_observation_elevation_difference_of_subsegment[i - 1]
+				+ height[i - 1]);
+		}
+		for (auto &t : correction_of_subsegment)
+		{
+			accumulation_of_correction += t;
+		}
+		return true;
+	}
+
+	// weight:type(vector<double>)存在问题
+	bool Leveling::CSharpComputeWeight(int count)
+	{
+		uncertain_station_point = count;
+		if (distance_of_subsegment.empty())
+		{
+			return false;
+		}
+		// 赋值权
+		for (int i = 0; i < station_segment && i < distance_of_subsegment.size(); i++)
+		{
+			weight.push_back(1 / distance_of_subsegment[i]);
+		}
+		// 计算单位权中差
+		for (int i = 0, Pvv = 0;
+			i < station_segment && i < weight.size() && i < correction_of_subsegment.size()
+			; i++)
+		{
+			Pvv = weight[i]
+				* correction_of_subsegment[i]
+				* correction_of_subsegment[i];
+		}
+		unit_weight
+			= ReserveDecimal(
+				static_cast<double>(
+					sqrt(Pvv
+						/ (station_segment
+							- count)))
+				, 1);
+		for (int i = 0; i < count && i < weight.size(); i++)
+		{
+			each_elevation_error.push_back(
+				ReserveDecimal(
+					static_cast<double>(
+						unit_weight
+						/ sqrt(weight[i]))
+					, 1));
+		}
+		return true;
+	}
+
+	bool Leveling::CSharpSaveBodyInnerInfoToString(std::string & temp)
+	{
+		// 第一行
+		// 段号 
+		temp += to_string((status + 1));
+		temp += " ";
+		// 距离 / m
+		if (status >= distance_of_subsegment.size())
+		{
+			return false;
+		}
+		temp += to_string(distance_of_subsegment[status]);
+		temp += " ";
+		// 实测高差 / m
+		if (status >= observation_elevation_difference_of_subsegment.size())
+		{
+			return false;
+		}
+		temp += to_string(
+			observation_elevation_difference_of_subsegment[status]
+		);
+		temp += " ";
+		// 改正数 / mm
+		if (status >= correction_of_subsegment.size())
+		{
+			return false;
+		}
+		temp += to_string(correction_of_subsegment[status]);
+		temp += " ";
+		// 改正后高差/m 
+		if (status >= corrected_observation_elevation_difference_of_subsegment.size())
+		{
+			return false;
+		}
+		temp += to_string(
+			corrected_observation_elevation_difference_of_subsegment[status]
+		);
+		temp += " ";
+		// 第二行
+		// 测站序号：这个测段的最后一站
+		if (status >= station.size())
+		{
+			return false;
+		}
+		temp += to_string(station[status]);
+		temp += " ";
+		// 由于height第一个数是beginHeight，故应status + 1
+		if (status >= height.size())
+		{
+			return false;
+		}
+		temp += to_string(height[status + 1]);
+		temp += " ";
+		return true;
+	}
+
+	bool Leveling::CSharpSaveEndInnerInfoToString(string & s)
+	{
+		// s += " 闭合差: f闭 = ";
+		s += to_string(
+			this->accumulation_of_observation_elevation_difference);
+		s += " ";
+		s += to_string(this->start_height);
+		s += " ";
+		s += to_string(end_height);
+		s += " ";
+		s += to_string(closure);
+		s += " ";
+		s += to_string(distance);
+		s += " ";
+		double num = 20 * sqrt(distance / 1000);
+		double num_temp = ReserveDecimal(num, 2);
+		s += to_string(num_temp);
+		if (closure <= num_temp)
+		{
+			s += " < ";
+		} else
+		{
+			s += " > ";
+		}
+		/*s += " 单位权中差： μ =  ±√ ";
+		s += to_string(Pvv);
+		s += " / ";
+		s += to_string(station_segment);
+		s += " - ";
+		s += to_string(uncertain_station_point);
+		s += " = ";
+		s += to_string(unit_weight);*/
+		return true;
+	}
 }

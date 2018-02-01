@@ -155,11 +155,23 @@ Leveling
 			, int back_redface
 			, int front_redface);
 		// filename应该是全地址/当前的文件
-		bool CSharpDealTxtData(char* fileName);
-		bool CSharpSaveTxt(char* fileName);
+		bool CSharpDealTxtData(const char* fileName);
+		bool CSharpSaveTxt(const char* fileName);
 		// 如果data_prev不是最后一个只，设置为下一个
 		bool CSharpTraverse();
 		
+		// 以下为内业部分		
+		// data_prev一直去下一个node，until哨兵
+		// 用来Output traverse
+		// so that Get* method could get entire data from the linked list
+		bool CSharpProcessInner(
+			double beginHeight
+			, int endHeight
+			, int stationCount
+			, const char* stationNo);
+		// 通过改变data完成字符串的数据传递
+		bool CSharpGetInnerData(char* &data);
+
 		// 测量数据参数的获取，值为data_prev指向的值
 		int CSharpGetStationCount() const;
 		// get 后视尺上丝
@@ -216,6 +228,15 @@ Leveling
         double ReserveDecimal(double num, int count = 3);
         // 辅助检查数据输入范围
         bool Range(int input);
+
+		// 为CSharp输出而辅助的
+		bool CSharpProcessInner(double beginHeight, int endHeight);
+		bool CSharpProcessCorrection(int stationCount, const char* stationNo);
+		// 一般用count = 3
+		bool CSharpComputeWeight(int count);
+		bool CSharpSaveBodyInnerInfoToString(std::string &s);
+		// 添加末尾达到信息
+		bool CSharpSaveEndInnerInfoToString(std::string &s);
 
     private:
     
