@@ -720,43 +720,33 @@ Leveling
 		os.unsetf(ios::left);
 	}
 
-	double Leveling::ReserveDecimal(double num, int count)
+	double Leveling::ReserveDecimal(double num, int count) const
 	{
-		// to do
-		int numTemp;
-		double numPower;
-		float numPowerTemp;
-
-		numPower = pow(static_cast<double>(10), count + 1);
-		numPowerTemp = static_cast<float>(numPower);
-		numTemp = static_cast<int>(num * numPowerTemp) % 10;
-		if (numTemp < 4)
+		int powerNum = pow(10.0, count + 1) * num;
+		int temp = powerNum % 10;
+		double ret;
+		if (temp < 5)
 		{
-			// 类型转化，去掉小数点之后的数
-			num = static_cast<int>(num * numPower / 10);
-			num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
-		} 		
-		else if (numTemp == 5)
+			ret = powerNum / 10;
+			ret /= pow(10.0, count);
+		} else if (temp == 5)
 		{
-			numTemp = static_cast<int>(num * numPowerTemp) % 100;
-			if (numTemp % 2 == 0)
+			int value = static_cast<int>(powerNum) % 100;
+			if (value % 2 == 0)
 			{
-				num = static_cast<int>(num * numPower / 10);
-				num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
-			} 		
-			else
+				ret = powerNum / 10;
+				ret /= pow(10.0, count);
+			} else
 			{
-				num = static_cast<int>(num * numPower / 10) + 1;
-				num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
+				ret = powerNum / 10 + 1;
+				ret /= pow(10.0, count);
 			}
-		} 		
-		else if (numTemp > 6)
+		} else
 		{
-			num = static_cast<int>(num * numPower / 10) + 1;
-			num = static_cast<float>(static_cast<float>(num) / (numPowerTemp / 10));
+			ret = powerNum / 10 + 1;
+			ret /= pow(10.0, count);
 		}
-
-		return num;
+		return ret;
 	}
 	
 	bool Leveling::Range(int input)
@@ -942,7 +932,7 @@ Leveling
 		return true;
 	}
 
-	bool Leveling::CSharpSaveBodyInnerInfoToString(std::string & temp)
+	bool Leveling::CSharpSaveBodyInnerInfoToString(std::string & temp) const
 	{
 		// 第一行
 		// 段号 
@@ -998,13 +988,13 @@ Leveling
 		return true;
 	}
 
-	bool Leveling::CSharpSaveEndInnerInfoToString(string & s)
+	bool Leveling::CSharpSaveEndInnerInfoToString(string & s)  const
 	{
 		// s += " 闭合差: f闭 = ";
 		s += to_string(
 			this->accumulation_of_observation_elevation_difference);
 		s += " ";
-		s += to_string(this->start_height);
+		s += to_string(start_height);
 		s += " ";
 		s += to_string(end_height);
 		s += " ";
@@ -1012,8 +1002,8 @@ Leveling
 		s += " ";
 		s += to_string(distance);
 		s += " ";
-		double num = 20 * sqrt(distance / 1000);
-		double num_temp = ReserveDecimal(num, 2);
+		double value = 20 * sqrt(distance / 1000);
+		double num_temp = ReserveDecimal(value, 2);
 		s += to_string(num_temp);
 		if (closure <= num_temp)
 		{

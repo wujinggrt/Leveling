@@ -225,7 +225,11 @@ Leveling
         // 输出数据到流。
         void OutputData(std::shared_ptr<LevelingData> &spld, std::ostream &os = std::cout) const;
         // 保留小数精度运算，四舍六入五取偶，第二个参数为保留的小数位数
-        double ReserveDecimal(double num, int count = 3);
+		// 比如:num = 3.14159
+		// count = 1:3.1 (4159)
+		// 2:3.14 (159)
+		// 3:3.142 (59)
+        double ReserveDecimal(double num, int count = 3) const;
         // 辅助检查数据输入范围
         bool Range(int input);
 
@@ -234,9 +238,9 @@ Leveling
 		bool CSharpProcessCorrection(int stationCount, const char* stationNo);
 		// 一般用count = 3
 		bool CSharpComputeWeight(int count);
-		bool CSharpSaveBodyInnerInfoToString(std::string &s);
+		bool CSharpSaveBodyInnerInfoToString(std::string &s) const;
 		// 添加末尾达到信息
-		bool CSharpSaveEndInnerInfoToString(std::string &s);
+		bool CSharpSaveEndInnerInfoToString(std::string &s) const;
 
     private:
     

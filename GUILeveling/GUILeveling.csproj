@@ -72,11 +72,23 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PrintInnerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrintInnerForm.Designer.cs">
+      <DependentUpon>PrintInnerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PrintOuterForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PrintOuterForm.Designer.cs">
       <DependentUpon>PrintOuterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessInnerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProcessInnerForm.Designer.cs">
+      <DependentUpon>ProcessInnerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ProgressForm.cs">
@@ -104,8 +116,14 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PrintInnerForm.resx">
+      <DependentUpon>PrintInnerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PrintOuterForm.resx">
       <DependentUpon>PrintOuterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessInnerForm.resx">
+      <DependentUpon>ProcessInnerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
