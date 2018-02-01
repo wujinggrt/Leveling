@@ -39,6 +39,7 @@ class:DllLeveling
 	    , int front_redface);
     // 删除数据
     DLL_API bool __stdcall DeleteData(Leveling* leveling_ptr, int stationNo);
+	DLL_API bool __stdcall DeleteAll(Leveling* &pl);
     // 在输入测站之前插入数据
     DLL_API bool __stdcall InsertData(Leveling* leveling_ptr
 	    , int station_no

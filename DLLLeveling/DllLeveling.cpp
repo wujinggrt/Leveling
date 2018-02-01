@@ -68,6 +68,21 @@ class:DllLeveling
 		return leveling_ptr->CSharpDeleteData(station_no);
 	}
 
+	bool __stdcall DeleteAll(Leveling *& pl)
+	{
+		if (pl == nullptr)
+		{
+			return false;
+		}
+		if (pl->CSharpGetStationCount() == 0)
+		{
+			return false;
+		}
+		delete pl;
+		pl = new Leveling();
+		return true;
+	}
+
 	bool __stdcall InsertData(Leveling* leveling_ptr
 	    , int station_no
 	    , int back_above

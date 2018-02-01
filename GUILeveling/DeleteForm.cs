@@ -90,21 +90,18 @@ namespace GUILeveling
                     MessageBox.Show("无测站数据");
                     return;
                 }
-                for(stationNO = 1; MainForm.stationCount > 0; )
+                bool temp = MainForm.DeleteAll(ref MainForm.pl);
+                if (temp)
                 {
-                    bool temp = MainForm.DeleteData(MainForm.pl, stationNO);
-                    if (temp)
-                    {
-                        MessageBox.Show("删除完成");
-                        MainForm.stationCount = MainForm.GetStationCount(MainForm.pl);
-                        return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("无该测站数据");
-                        return;
-                    }
+                    MainForm.stationCount = MainForm.GetStationCount(MainForm.pl);
                 }
+                else
+                {
+                    MessageBox.Show("失败！");
+                    return;
+                }
+                MessageBox.Show("删除完成");
+                return;
             }
             else
             {

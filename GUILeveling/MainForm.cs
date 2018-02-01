@@ -17,10 +17,10 @@ namespace GUILeveling
 
         #region DllImport
         // 创建一个Leveling对象(非托管)
-        [DllImport(@"DllTest.dll", EntryPoint = "CreateLeveling", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "CreateLeveling", CharSet = CharSet.Ansi)]
         public static extern IntPtr CreateLeveling();
 
-        [DllImport(@"DllTest.dll", EntryPoint = "DealData", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "DealData", CharSet = CharSet.Ansi)]
         public static extern bool DealData(
             IntPtr pl
             , int backAbove
@@ -34,10 +34,10 @@ namespace GUILeveling
             );
         // after stop input action
         // 与PrevReset成对出现
-        [DllImport(@"DllTest.dll", EntryPoint = "StopData", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "StopData", CharSet = CharSet.Ansi)]
         public static extern bool StopData(IntPtr pl);
         // 
-        [DllImport(@"DllTest.dll", EntryPoint = "UpdateData", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "UpdateData", CharSet = CharSet.Ansi)]
         public static extern bool UpdateData(
             IntPtr pl
             , int stationNO
@@ -50,10 +50,12 @@ namespace GUILeveling
             , int backRedface
             , int forwardRedface
             );
-        [DllImport(@"DllTest.dll", EntryPoint = "DeleteData", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "DeleteData", CharSet = CharSet.Ansi)]
         public static extern bool DeleteData(IntPtr pl, int stationNO);
+        [DllImport(@"DllLeveling.dll", EntryPoint = "DeleteAll", CharSet = CharSet.Ansi)]
+        public static extern bool DeleteAll(ref IntPtr pl);
         // 在stationNO之前插入data   
-        [DllImport(@"DllTest.dll", EntryPoint = "InsertData", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "InsertData", CharSet = CharSet.Ansi)]
         public static extern bool InsertData(
             IntPtr pl
             , int stationNO
@@ -67,10 +69,10 @@ namespace GUILeveling
             , int forwardRedface
             );
         // save txt
-        [DllImport(@"DllTest.dll", EntryPoint = "SaveTxt", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "SaveTxt", CharSet = CharSet.Ansi)]
         public static extern bool SaveTxt(IntPtr pl, string fileName);
         // process inner
-        [DllImport(@"DllTest.dll", EntryPoint = "ProcessInner", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "ProcessInner", CharSet = CharSet.Ansi)]
         public static extern bool ProcessInner(
             IntPtr pl
             , double beginHeight
@@ -80,79 +82,79 @@ namespace GUILeveling
         // 获得的数据是引用，
         // 获取的事每一段（两行）数据
         // get Inner data
-        [DllImport(@"DllTest.dll", EntryPoint = "GetInnerData", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetInnerData", CharSet = CharSet.Ansi)]
         public static extern bool GetInnerData(IntPtr pl, ref string data);
         // trverse
-        [DllImport(@"DllTest.dll", EntryPoint = "Traverse", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "Traverse", CharSet = CharSet.Ansi)]
         public static extern bool Traverse(IntPtr pl);
         // get 后视尺上丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetBackAbove", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetBackAbove", CharSet = CharSet.Ansi)]
         public static extern int GetBackAbove(IntPtr pl);
         //get 后视尺下丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetBackBelow", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetBackBelow", CharSet = CharSet.Ansi)]
         public static extern int GetBackBelow(IntPtr pl);
         //get 后视尺黑面中丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetBackBlackface", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetBackBlackface", CharSet = CharSet.Ansi)]
         public static extern int GetBackBlackface(IntPtr pl);
         //get 后视尺红面中丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetBackRedFace", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetBackRedFace", CharSet = CharSet.Ansi)]
         public static extern int GetBackRedFace(IntPtr pl);
         //get 前视尺上丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetFrontAbove", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetFrontAbove", CharSet = CharSet.Ansi)]
         public static extern int GetForwardAbove(IntPtr pl);
         //get 前视尺下丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetFrontBelow", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetFrontBelow", CharSet = CharSet.Ansi)]
         public static extern int GetForwardBelow(IntPtr pl);
         //get 前视尺黑面中丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetFrontBlackface", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetFrontBlackface", CharSet = CharSet.Ansi)]
         public static extern int GetForwardBlackface(IntPtr pl);
         //get 前视尺红面中丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetFrontRedface", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetFrontRedface", CharSet = CharSet.Ansi)]
         public static extern int GetForwardRedface(IntPtr pl);
         //get 后视距
-        [DllImport(@"DllTest.dll", EntryPoint = "GetBackDistance", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetBackDistance", CharSet = CharSet.Ansi)]
         public static extern int GetBackDistance(IntPtr pl);
         //get 前视距
-        [DllImport(@"DllTest.dll", EntryPoint = "GetFrontDistance", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetFrontDistance", CharSet = CharSet.Ansi)]
         public static extern int GetForwardDistance(IntPtr pl);
         //get 视距差
-        [DllImport(@"DllTest.dll", EntryPoint = "GetSightDistanceDifference", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetSightDistanceDifference", CharSet = CharSet.Ansi)]
         public static extern int GetDisparityDifference(IntPtr pl);
         //get 累计视距差
-        [DllImport(@"DllTest.dll", EntryPoint = "GetAccumulationSightDistanceDifference", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetAccumulationSightDistanceDifference", CharSet = CharSet.Ansi)]
         public static extern int GetAccumulatedDisparityDifference(IntPtr pl);
         //get 后：K+黑 - 红
-        [DllImport(@"DllTest.dll", EntryPoint = "GetBackKBlackRed", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetBackKBlackRed", CharSet = CharSet.Ansi)]
         public static extern int GetBackKBlackRed(IntPtr pl);
         //get 前：K+黑-红
-        [DllImport(@"DllTest.dll", EntryPoint = "GetFrontKBlackRed", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetFrontKBlackRed", CharSet = CharSet.Ansi)]
         public static extern int GetForwardKBlackRed(IntPtr pl);
         //get 黑面中丝：后视尺中丝-前视尺中丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetBlackfaceBackFront", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetBlackfaceBackFront", CharSet = CharSet.Ansi)]
         public static extern int GetBlackfaceBackForward(IntPtr pl);
         //get 红面中丝：后视尺中丝-前视尺中丝
-        [DllImport(@"DllTest.dll", EntryPoint = "GetRedfaceBackFront", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetRedfaceBackFront", CharSet = CharSet.Ansi)]
         public static extern int GetRedfaceBackForward(IntPtr pl);
         //get 红黑面差
-        [DllImport(@"DllTest.dll", EntryPoint = "GetBackFront", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetBackFront", CharSet = CharSet.Ansi)]
         public static extern int GetBackForward(IntPtr pl);
         // get 高差中数
-        [DllImport(@"DllTest.dll", EntryPoint = "GetMean", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetMean", CharSet = CharSet.Ansi)]
         public static extern double GetMean(IntPtr pl);
         // 在Update, 显示文本之后，
         // 把data_prev置位为原来的位置，
         // 避免以后Input出现的linked list结构混乱
-        [DllImport(@"DllTest.dll", EntryPoint = "DataPrevReset", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "DataPrevReset", CharSet = CharSet.Ansi)]
         public static extern void DataPrevReset(IntPtr pl);
         // data_prev reset to data_head
-        [DllImport(@"DllTest.dll", EntryPoint = "DataPrevResetToHead", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "DataPrevResetToHead", CharSet = CharSet.Ansi)]
         public static extern void DataPrevResetToHead(IntPtr pl);
         //获取测站数
         // need to correct the interface
-        [DllImport(@"DllTest.dll", EntryPoint = "GetStationCount", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "GetStationCount", CharSet = CharSet.Ansi)]
         public static extern int GetStationCount(IntPtr pl);
         // read and deal data from txt file
-        [DllImport(@"DllTest.dll", EntryPoint = "DealTxtData", CharSet = CharSet.Ansi)]
+        [DllImport(@"DllLeveling.dll", EntryPoint = "DealTxtData", CharSet = CharSet.Ansi)]
         public static extern bool DealTxtData(IntPtr pl, string fileName);
         #endregion
 
