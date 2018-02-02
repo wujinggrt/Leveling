@@ -109,6 +109,19 @@ class:DllLeveling
 	DLL_API bool __stdcall StopData(Leveling* leveling_ptr);
 	DLL_API void __stdcall DataPrevReset(Leveling* pl);
 	DLL_API void __stdcall DataPrevResetToHead(Leveling* pl);
+
+#ifndef NDEBUG
+
+	// for test
+	DLL_API bool __stdcall TestOutputInner(Leveling* pl, char* &data);
+	DLL_API bool __stdcall TestGetStation(Leveling* pl, char* &data);
+	DLL_API bool __stdcall TestGetDistance(Leveling* pl, char* &data);
+	DLL_API bool __stdcall TestGetRealElevation(Leveling* pl, char* &data);
+	DLL_API bool __stdcall TestGetCorrection(Leveling* pl, char* &data);
+	DLL_API bool __stdcall TestGetCorrectedHeight(Leveling* pl, char* &data);
+	DLL_API bool __stdcall TestGetHeight(Leveling* pl, char* &data);
+
+#endif
 }
 
 #endif

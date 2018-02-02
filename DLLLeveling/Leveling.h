@@ -166,7 +166,7 @@ Leveling
 		// so that Get* method could get entire data from the linked list
 		bool CSharpProcessInner(
 			double beginHeight
-			, int endHeight
+			, double endHeight
 			, int stationCount
 			, const char* stationNo);
 		// 通过改变data完成字符串的数据传递
@@ -218,6 +218,18 @@ Leveling
 		// data_prev设置为data_head
 		void CSharpDataPrevResetToHead();
 
+#ifndef NDEBUG
+		// for debug
+		bool CSharpTestOutputInner(char* &data) const;
+		bool CSharpTestGetStation(char* &data) const;
+		bool CSharpTestGetDistance(char* &data) const;
+		bool CSharpTestGetRealElevation(char* &data) const;
+		bool CSharpTestGetCorrection(char* &data) const;
+		bool CSharpTestGetCorrectedHeight(char* &data) const;
+		bool CSharpTestGetHeight(char* &data) const;
+
+#endif NDEBUG
+
     private:
 
 		// 数据处理
@@ -234,8 +246,17 @@ Leveling
         bool Range(int input);
 
 		// 为CSharp输出而辅助的
-		bool CSharpProcessInner(double beginHeight, int endHeight);
-		bool CSharpProcessCorrection(int stationCount, const char* stationNo);
+		// 计算闭合差/mm：closure
+		// 计算总距离/m：distance
+		// 计算改正数（mm）：correction
+		bool CSharpProcessHeight(const double beginHeight, const double endHeight);
+		// 这个函数将会对测段进行处理
+		// 计算出每一测段距离/m：distance_of_subsegment
+		// 这一测段高差/m：observation_elevation_difference_of_subsegment
+		// 测段高差改正数/mm：correction_of_subsegment
+		// 改正后高差/m:corrected_observation_elevation_difference_of_subsegment
+		// 高程/m：height
+		bool CSharpProcessSegment(const int segmentCount, const char* stationNo);
 		// 一般用count = 3
 		bool CSharpComputeWeight(int count);
 		bool CSharpSaveBodyInnerInfoToString(std::string &s) const;
@@ -255,13 +276,10 @@ Leveling
         int station_count;
         // 临时存储累计视距差，用来对LevelingData中的累计视距差进行赋值
         int temp_accumulation_sight_distance_difference;
-        // 临时存储高差，用来计算
-        int temp_observation_elevation_difference;
-        
 
         // 内业部分
         // 测段数
-        int station_segment;
+        int segment_count;
 		// 每一测段的最后一站序号
         std::vector<int> station;
         // 每段改正数/mm
@@ -299,9 +317,9 @@ Leveling
         // 高程/m
         std::vector<double> height;
 		// 累计改正数
-        double accumulation_of_correction;
-		// 输出内业数据的辅助判断
-		int status;
+        double accumulation_of_correction;  
+        // 输出内业数据的辅助判断  
+	    int status;  
 
     };
 

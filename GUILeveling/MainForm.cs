@@ -295,6 +295,12 @@ namespace GUILeveling
                 printInner.Show();
             }
         }
+
+        private void testBtn_Click(object sender, EventArgs e)
+        {
+            TestForm test = new TestForm(this);
+            test.Show();
+        }
     }
 
     public class LevelingData

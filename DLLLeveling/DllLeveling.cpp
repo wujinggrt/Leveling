@@ -243,4 +243,32 @@ class:DllLeveling
 	{
 		return pl->CSharpDataPrevResetToHead();
 	}
+	bool __stdcall TestOutputInner(Leveling * pl, char *& data)
+	{
+		return pl->CSharpTestOutputInner(data);
+	}
+	bool __stdcall TestGetStation(Leveling * pl, char *& data)
+	{
+		return pl->CSharpTestGetStation(data);
+	}
+	bool __stdcall TestGetDistance(Leveling * pl, char *& data)
+	{
+		return pl->CSharpTestGetDistance(data);
+	}
+	bool __stdcall TestGetRealElevation(Leveling * pl, char *& data)
+	{
+		return pl->CSharpTestGetRealElevation(data);
+	}
+	bool __stdcall TestGetCorrection(Leveling * pl, char *& data)
+	{
+		return pl->CSharpTestGetCorrection(data);
+	}
+	bool __stdcall TestGetCorrectedHeight(Leveling * pl, char *& data)
+	{
+		return pl->CSharpTestGetCorrectedHeight(data);
+	}
+	bool __stdcall TestGetHeight(Leveling * pl, char *& data)
+	{
+		return pl->CSharpTestGetHeight(data);
+	}
 }

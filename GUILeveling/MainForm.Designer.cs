@@ -39,6 +39,7 @@
             this.ProcessInnerBtn = new System.Windows.Forms.Button();
             this.DataInnerPrintButton = new System.Windows.Forms.Button();
             this.DataInnerOutputButton = new System.Windows.Forms.Button();
+            this.testBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DataInsertButton
@@ -151,11 +152,22 @@
             this.DataInnerOutputButton.UseVisualStyleBackColor = true;
             this.DataInnerOutputButton.Click += new System.EventHandler(this.DataInnerOutputButton_Click);
             // 
+            // testBtn
+            // 
+            this.testBtn.Location = new System.Drawing.Point(301, 367);
+            this.testBtn.Name = "testBtn";
+            this.testBtn.Size = new System.Drawing.Size(186, 55);
+            this.testBtn.TabIndex = 24;
+            this.testBtn.Text = "Test";
+            this.testBtn.UseVisualStyleBackColor = true;
+            this.testBtn.Click += new System.EventHandler(this.testBtn_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(637, 481);
+            this.Controls.Add(this.testBtn);
             this.Controls.Add(this.DataInnerOutputButton);
             this.Controls.Add(this.DataInnerPrintButton);
             this.Controls.Add(this.ProcessInnerBtn);
@@ -187,6 +199,7 @@
         private System.Windows.Forms.Button ProcessInnerBtn;
         private System.Windows.Forms.Button DataInnerPrintButton;
         private System.Windows.Forms.Button DataInnerOutputButton;
+        private System.Windows.Forms.Button testBtn;
     }
 }
 

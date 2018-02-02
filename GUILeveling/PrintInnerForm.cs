@@ -40,23 +40,27 @@ namespace GUILeveling
             this.Close();
         }
 
+        // 格式设置：
+        // 第一（段号）、二（测站号）列宽自动调整
+        // 行头隐藏
+        // 不允许用户添加新行
         private void SetDGVFormat()
         {
-            // format
             dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.AllowUserToAddRows = false;
         }
 
+        // 第一行信息
         private void PrintDGVFirstRow()
         {
-            dataGridView1.AllowUserToAddRows = false;
-            // first rows
             dataGridView1.Rows.Add();
             dataGridView1.Rows[0].Cells[1].Value = "1";
             dataGridView1.Rows[0].Cells[6].Value = MainForm.beginHeight.ToString("f3");
         }
 
+        // 打印内容
         private void PrintDGVBody(string innerData)
         {
             if (innerData == null || innerData == string.Empty)
@@ -86,7 +90,7 @@ namespace GUILeveling
             dataGridView1.Rows[index].Cells[6].Value = height.ToString("f3");
         }
 
-        // to do
+        // 打印结果
         private void PrintResult(string innerData)
         {
             string[] innerDataSet = innerData.Split();
@@ -123,11 +127,14 @@ namespace GUILeveling
         }
 
         // 每测段数据占两行
+        // 这儿出现的bug，头痛两天了
+        // FUUUUUUUUck
         private void PrintToDGV()
         {
             for (int segment = 1; segment <= MainForm.segment; ++segment)
             {
                 string innerData = "蛤蛤";
+                // 可能是innerData没有读全数据，造成split后，访问空
                 bool temp = MainForm.GetInnerData(MainForm.pl, ref innerData);
                 if (temp)
                 {
