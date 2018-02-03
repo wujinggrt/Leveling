@@ -18,7 +18,6 @@ namespace GUILeveling
         public TestForm()
         {
             InitializeComponent();
-            Print();
         }
 
         public TestForm(System.Windows.Forms.Form p)
@@ -33,150 +32,39 @@ namespace GUILeveling
             this.Close();
         }
 
-        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "TestOutputInner", CharSet = CharSet.Ansi)]
-        public static extern bool TestOutputInner(IntPtr pl, ref string data);
-        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "TestGetStation", CharSet = CharSet.Ansi)]
-        public static extern bool TestGetStation(IntPtr pl, ref string data);
-        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "TestGetDistance", CharSet = CharSet.Ansi)]
-        public static extern bool TestGetDistance(IntPtr pl, ref string data);
-        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "TestGetRealElevation", CharSet = CharSet.Ansi)]
-        public static extern bool TestGetRealElevation(IntPtr pl, ref string data);
-        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "TestGetCorrection", CharSet = CharSet.Ansi)]
-        public static extern bool TestGetCorrection(IntPtr pl, ref string data);
-        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "TestGetCorrectedHeight", CharSet = CharSet.Ansi)]
-        public static extern bool TestGetCorretedHeight(IntPtr pl, ref string data);
-        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "TestGetHeight", CharSet = CharSet.Ansi)]
-        public static extern bool TestGetHeight(IntPtr pl, ref string data);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetStationNo", CharSet = CharSet.Ansi)]
+        public static extern int GetStationNo(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetDistance", CharSet = CharSet.Ansi)]
+        public static extern double GetDistance(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetObservedElevation", CharSet = CharSet.Ansi)]
+        public static extern double GetObservedElevation(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetCorrection", CharSet = CharSet.Ansi)]
+        public static extern double GetCorrection(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetCorrectedHeight", CharSet = CharSet.Ansi)]
+        public static extern double GetCorrectedHeight(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetHeight", CharSet = CharSet.Ansi)]
+        public static extern double GetHeight(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "UpdateIndex", CharSet = CharSet.Ansi)]
+        public static extern bool UpdateIndex(IntPtr pl, ref int segment);
 
-        private void PrintStation()
+        private void getDistanceBtn_Click(object sender, EventArgs e)
         {
-            string data = "";
-            bool status = TestGetStation(MainForm.pl, ref data);
-            if(!status)
+            int segment = 0;
+            stationLabel.Text = GetStationNo(MainForm.pl).ToString();
+            distanceLabel.Text = GetDistance(MainForm.pl).ToString("f3");
+            realValueLabel.Text = GetObservedElevation(MainForm.pl).ToString("f3");
+            correctionLabel.Text = GetCorrection(MainForm.pl).ToString("f3");
+            correctedValueLabel.Text = GetCorrectedHeight(MainForm.pl).ToString("f3");
+            heightLabel.Text = GetHeight(MainForm.pl).ToString("f3");
+            if(UpdateIndex(MainForm.pl, ref segment))
             {
-                return;
+                label7.Text = "OK";
             }
-            String[] dataSet = data.Split();
-            int index = 0;
-            int stationCount = int.Parse(dataSet[index++]);
-            string text = "";
-            for(int i = 0; i < stationCount; ++i)
+            else
             {
-                text += dataSet[index++] + " ";
+                label7.Text = "completed!";
             }
-            // closure
-            text += dataSet[index++] + " ";
-            stationLabel.Text = text;
-        }
-
-        private void PrintDistance()
-        {
-            string data = "";
-            bool status = TestGetDistance(MainForm.pl, ref data);
-            if(!status)
-            {
-                return;
-            }
-            String[] dataSet = data.Split();
-            int index = 0;
-            int distanceCount = int.Parse(dataSet[index++]);
-            string distanceText = "";
-            for (int i = 0; i < distanceCount; ++i)
-            {
-                distanceText += dataSet[index++] + " ";
-            }
-            distanceLabel.Text = distanceText;
-        }
-
-        private void PrintRealElevation()
-        {
-            string data = "";
-            bool status = TestGetRealElevation(MainForm.pl, ref data);
-            if(!status)
-            {
-                return;
-            }
-            String[] dataSet = data.Split();
-            int index = 0;
-            int realCount = int.Parse(dataSet[index++]);
-            string realText = null;
-            for (int i = 0; i < realCount; ++i)
-            {
-                realText += dataSet[index++] + " ";
-            }
-            realValueLabel.Text = realText;
-        }
-
-        private void PrintCorrection()
-        {
-            string data = "";
-            bool status = TestGetCorrection(MainForm.pl, ref data);
-            if(!status)
-            {
-                return;
-            }
-            String[] dataSet = data.Split();
-            int index = 0;
-            int correctionCount = int.Parse(dataSet[index++]);
-            string correctionText = null;
-            for (int i = 0; i < correctionCount; ++i)
-            {
-                correctionText += dataSet[index++] + " ";
-            }
-            correctionLabel.Text = correctionText;
-        }
-
-        private void PrintCorrectedHeight()
-        {
-            string data = "";
-            bool status = TestGetCorretedHeight(MainForm.pl, ref data);
-            if(!status)
-            {
-                return;
-            }
-            string[] dataSet = data.Split();
-            int index = 0;
-            int correctedValueCount = int.Parse(dataSet[index++]);
-            string correctedValueText = null;
-            for (int i = 0; i < correctedValueCount; ++i)
-            {
-                correctedValueText += dataSet[index++] + " ";
-            }
-            correctedValueLabel.Text = correctedValueText;
-        }
-
-        private void PrintHeight()
-        {
-            string data = "";
-            bool status = TestGetHeight(MainForm.pl, ref data);
-            if(!status)
-            {
-                return;
-            }
-            string[] dataSet = data.Split();
-            int index = 0;
-            int heightCount = int.Parse(dataSet[index++]);
-            string heightText = null;
-            for (int i = 0; i < heightCount; ++i)
-            {
-                heightText += dataSet[index++] + " ";
-            }
-            heightLabel.Text = heightText;
-        }
-
-       public void Print()
-       {
-            PrintStation();
-            PrintDistance();
-            PrintRealElevation();
-            //PrintCorrection();
-            //PrintCorrectedHeight();
-            //PrintHeight();
-        }
-
-        private void TestForm_Load(object sender, EventArgs e)
-        {
-
+            segmentLabel.Text = segment.ToString();
         }
     }
 }

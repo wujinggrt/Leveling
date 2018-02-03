@@ -228,6 +228,17 @@ Leveling
 		bool CSharpTestGetCorrectedHeight(char* &data) const;
 		bool CSharpTestGetHeight(char* &data) const;
 
+		// 获得当前index的值
+		int CSharpGetStationNo() const;
+		double CSharpGetDistance() const;
+		double CSharpGetObservedElevation() const;
+		double CSharpGetCorrection() const;
+		double CSharpGetCorrectedHeight() const;
+		double CSharpGetHeight() const;
+		// index+1，如果超过segment_count
+		// 重置为0，并且返回false
+		bool CSharpUpdateIndex(int &segment);
+
 #endif NDEBUG
 
     private:
@@ -320,6 +331,8 @@ Leveling
         double accumulation_of_correction;  
         // 输出内业数据的辅助判断  
 	    int status;  
+		// 为CSharp输出而遍历各个容器的下标
+		int index;
 
     };
 

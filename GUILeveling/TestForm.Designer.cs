@@ -41,6 +41,11 @@
             this.correctedValueLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.heightLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.getDistanceBtn = new System.Windows.Forms.Button();
+            this.segmentLabel = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -161,11 +166,62 @@
             this.heightLabel.TabIndex = 12;
             this.heightLabel.Text = "corrected:";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(255, 175);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(55, 15);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "status";
+            // 
+            // getDistanceBtn
+            // 
+            this.getDistanceBtn.Location = new System.Drawing.Point(303, 520);
+            this.getDistanceBtn.Name = "getDistanceBtn";
+            this.getDistanceBtn.Size = new System.Drawing.Size(170, 82);
+            this.getDistanceBtn.TabIndex = 14;
+            this.getDistanceBtn.Text = "GetNext";
+            this.getDistanceBtn.UseVisualStyleBackColor = true;
+            this.getDistanceBtn.Click += new System.EventHandler(this.getDistanceBtn_Click);
+            // 
+            // segmentLabel
+            // 
+            this.segmentLabel.AutoSize = true;
+            this.segmentLabel.Location = new System.Drawing.Point(237, 73);
+            this.segmentLabel.Name = "segmentLabel";
+            this.segmentLabel.Size = new System.Drawing.Size(63, 15);
+            this.segmentLabel.TabIndex = 15;
+            this.segmentLabel.Text = "segment";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(240, 35);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(102, 15);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "segment NO：";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(240, 149);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(70, 15);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Status：";
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(859, 645);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.segmentLabel);
+            this.Controls.Add(this.getDistanceBtn);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.heightLabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.correctedValueLabel);
@@ -181,7 +237,6 @@
             this.Controls.Add(this.label1);
             this.Name = "TestForm";
             this.Text = "TestForm";
-            this.Load += new System.EventHandler(this.TestForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,5 +257,10 @@
         private System.Windows.Forms.Label correctedValueLabel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label heightLabel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button getDistanceBtn;
+        private System.Windows.Forms.Label segmentLabel;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
     }
 }

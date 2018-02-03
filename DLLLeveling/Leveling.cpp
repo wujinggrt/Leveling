@@ -45,6 +45,7 @@ Leveling
         , accumulation_of_correction(0.0)
         // , height(std::vector<double>())
         , status(0)
+		, index(0)
         {
             station.reserve(20);
             correction_of_subsegment.reserve(20);
@@ -729,6 +730,52 @@ Leveling
 		}
 		strcpy_s(data, info.size() + 1, info.c_str());
 		return true;
+	}
+
+	int Leveling::CSharpGetStationNo() const
+	{
+		return station[index];
+	}
+
+	double Leveling::CSharpGetDistance() const
+	{
+		return distance_of_subsegment[index];
+	}
+
+	double Leveling::CSharpGetObservedElevation() const
+	{
+		return observation_elevation_difference_of_subsegment[index];
+	}
+
+	double Leveling::CSharpGetCorrection() const
+	{
+		return correction_of_subsegment[index];
+	}
+
+	double Leveling::CSharpGetCorrectedHeight() const
+	{
+		return corrected_observation_elevation_difference_of_subsegment[index];
+	}
+
+	double Leveling::CSharpGetHeight() const
+	{
+		return height[index];
+	}
+
+	bool Leveling::CSharpUpdateIndex(int &segment)
+	{
+		++index;
+		if (index < segment_count)
+		{
+			segment = index;
+			return true;
+		}
+		else
+		{
+			index = 0;
+			segment = index;
+			return false;
+		}
 	}
 	
 #endif

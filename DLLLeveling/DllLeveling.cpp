@@ -271,4 +271,32 @@ class:DllLeveling
 	{
 		return pl->CSharpTestGetHeight(data);
 	}
+	int __stdcall GetStationNo(Leveling * pl)
+	{
+		return pl->CSharpGetStationNo();
+	}
+	double __stdcall GetDistance(Leveling * pl)
+	{
+		return pl->CSharpGetDistance();
+	}
+	double __stdcall GetObservedElevation(Leveling * pl)
+	{
+		return pl->CSharpGetObservedElevation();
+	}
+	double __stdcall GetCorrection(Leveling * pl)
+	{
+		return pl->CSharpGetCorrection();
+	}
+	double __stdcall GetCorrectedHeight(Leveling * pl)
+	{
+		return pl->CSharpGetCorrectedHeight();
+	}
+	double __stdcall GetHeight(Leveling * pl)
+	{
+		return pl->CSharpGetHeight();
+	}
+	bool __stdcall UpdateIndex(Leveling * pl, int &segment)
+	{
+		return pl->CSharpUpdateIndex(segment);
+	}
 }

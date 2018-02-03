@@ -121,6 +121,13 @@ class:DllLeveling
 	DLL_API bool __stdcall TestGetCorrectedHeight(Leveling* pl, char* &data);
 	DLL_API bool __stdcall TestGetHeight(Leveling* pl, char* &data);
 
+	DLL_API int __stdcall GetStationNo(Leveling* pl);
+	DLL_API double __stdcall GetDistance(Leveling* pl);
+	DLL_API double __stdcall GetObservedElevation(Leveling* pl);
+	DLL_API double __stdcall GetCorrection(Leveling* pl);
+	DLL_API double __stdcall GetCorrectedHeight(Leveling* pl);
+	DLL_API double __stdcall GetHeight(Leveling* pl);
+	DLL_API bool __stdcall UpdateIndex(Leveling* pl, int &segment);
 #endif
 }
 
