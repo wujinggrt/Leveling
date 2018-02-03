@@ -45,26 +45,25 @@ namespace GUILeveling
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetHeight", CharSet = CharSet.Ansi)]
         public static extern double GetHeight(IntPtr pl);
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "UpdateIndex", CharSet = CharSet.Ansi)]
-        public static extern bool UpdateIndex(IntPtr pl, ref int segment);
+        public static extern int UpdateIndex(IntPtr pl);
 
         private void getDistanceBtn_Click(object sender, EventArgs e)
         {
-            int segment = 0;
             stationLabel.Text = GetStationNo(MainForm.pl).ToString();
             distanceLabel.Text = GetDistance(MainForm.pl).ToString("f3");
             realValueLabel.Text = GetObservedElevation(MainForm.pl).ToString("f3");
             correctionLabel.Text = GetCorrection(MainForm.pl).ToString("f3");
             correctedValueLabel.Text = GetCorrectedHeight(MainForm.pl).ToString("f3");
             heightLabel.Text = GetHeight(MainForm.pl).ToString("f3");
-            if(UpdateIndex(MainForm.pl, ref segment))
+            int segment = UpdateIndex(MainForm.pl);
+            if (segment != 0)
             {
-                label7.Text = "OK";
+                segmentLabel.Text = segment.ToString();
             }
             else
             {
-                label7.Text = "completed!";
+                segmentLabel.Text = MainForm.segment.ToString();
             }
-            segmentLabel.Text = segment.ToString();
         }
     }
 }

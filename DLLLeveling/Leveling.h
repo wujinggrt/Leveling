@@ -169,10 +169,8 @@ Leveling
 			, double endHeight
 			, int stationCount
 			, const char* stationNo);
-		// 通过改变data完成字符串的数据传递
-		bool CSharpGetInnerData(char* &data);
 
-		// 测量数据参数的获取，值为data_prev指向的值
+		// 获取测量数据参数，值为data_prev指向的值
 		int CSharpGetStationCount() const;
 		// get 后视尺上丝
 		int CSharpGetBackAbove() const;	
@@ -218,29 +216,19 @@ Leveling
 		// data_prev设置为data_head
 		void CSharpDataPrevResetToHead();
 
-#ifndef NDEBUG
-		// for debug
-		bool CSharpTestOutputInner(char* &data) const;
-		bool CSharpTestGetStation(char* &data) const;
-		bool CSharpTestGetDistance(char* &data) const;
-		bool CSharpTestGetRealElevation(char* &data) const;
-		bool CSharpTestGetCorrection(char* &data) const;
-		bool CSharpTestGetCorrectedHeight(char* &data) const;
-		bool CSharpTestGetHeight(char* &data) const;
-
-		// 获得当前index的值
+		// 获得内外数据，获得当前index的值
 		int CSharpGetStationNo() const;
 		double CSharpGetDistance() const;
 		double CSharpGetObservedElevation() const;
 		double CSharpGetCorrection() const;
 		double CSharpGetCorrectedHeight() const;
 		double CSharpGetHeight() const;
-		// index+1，如果超过segment_count
-		// 重置为0，并且返回false
-		bool CSharpUpdateIndex(int &segment);
+		// @parm segment:是当前测段号1-segment_count(即是index + 1)
+		// 更新index， 能够获得下一个测段的数据
+		int CSharpUpdateIndex();
 
-#endif NDEBUG
-
+		// 添加末尾达到信息
+		bool CSharpGetInnerResult(char* &data) const;
     private:
 
 		// 数据处理
@@ -270,9 +258,6 @@ Leveling
 		bool CSharpProcessSegment(const int segmentCount, const char* stationNo);
 		// 一般用count = 3
 		bool CSharpComputeWeight(int count);
-		bool CSharpSaveBodyInnerInfoToString(std::string &s) const;
-		// 添加末尾达到信息
-		bool CSharpSaveEndInnerInfoToString(std::string &s) const;
 
     private:
     

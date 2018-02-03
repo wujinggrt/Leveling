@@ -226,7 +226,7 @@ class:DllLeveling
 
 	bool __stdcall GetInnerData(Leveling * pl, char *& data)
 	{
-		return pl->CSharpGetInnerData(data);
+		return pl->CSharpGetInnerResult(data);
 	}
 
 	bool __stdcall StopData(Leveling * leveling_ptr)
@@ -243,60 +243,43 @@ class:DllLeveling
 	{
 		return pl->CSharpDataPrevResetToHead();
 	}
-	bool __stdcall TestOutputInner(Leveling * pl, char *& data)
-	{
-		return pl->CSharpTestOutputInner(data);
-	}
-	bool __stdcall TestGetStation(Leveling * pl, char *& data)
-	{
-		return pl->CSharpTestGetStation(data);
-	}
-	bool __stdcall TestGetDistance(Leveling * pl, char *& data)
-	{
-		return pl->CSharpTestGetDistance(data);
-	}
-	bool __stdcall TestGetRealElevation(Leveling * pl, char *& data)
-	{
-		return pl->CSharpTestGetRealElevation(data);
-	}
-	bool __stdcall TestGetCorrection(Leveling * pl, char *& data)
-	{
-		return pl->CSharpTestGetCorrection(data);
-	}
-	bool __stdcall TestGetCorrectedHeight(Leveling * pl, char *& data)
-	{
-		return pl->CSharpTestGetCorrectedHeight(data);
-	}
-	bool __stdcall TestGetHeight(Leveling * pl, char *& data)
-	{
-		return pl->CSharpTestGetHeight(data);
-	}
+
 	int __stdcall GetStationNo(Leveling * pl)
 	{
 		return pl->CSharpGetStationNo();
 	}
+
 	double __stdcall GetDistance(Leveling * pl)
 	{
 		return pl->CSharpGetDistance();
 	}
+
 	double __stdcall GetObservedElevation(Leveling * pl)
 	{
 		return pl->CSharpGetObservedElevation();
 	}
+
 	double __stdcall GetCorrection(Leveling * pl)
 	{
 		return pl->CSharpGetCorrection();
 	}
+
 	double __stdcall GetCorrectedHeight(Leveling * pl)
 	{
 		return pl->CSharpGetCorrectedHeight();
 	}
+
 	double __stdcall GetHeight(Leveling * pl)
 	{
 		return pl->CSharpGetHeight();
 	}
-	bool __stdcall UpdateIndex(Leveling * pl, int &segment)
+
+	int __stdcall UpdateIndex(Leveling * pl)
 	{
-		return pl->CSharpUpdateIndex(segment);
+		return pl->CSharpUpdateIndex();
+	}
+	bool __stdcall GetInnerResult(Leveling * pl, char *& data)
+	{
+		return pl->CSharpGetInnerResult(data);
 	}
 }

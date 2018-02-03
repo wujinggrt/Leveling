@@ -46,6 +46,7 @@
             this.segmentLabel = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -212,11 +213,21 @@
             this.label9.TabIndex = 17;
             this.label9.Text = "Status：";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(463, 204);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 15);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "label10";
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(859, 645);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.segmentLabel);
@@ -262,5 +273,6 @@
         private System.Windows.Forms.Label segmentLabel;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
     }
 }

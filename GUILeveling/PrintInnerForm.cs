@@ -12,20 +12,27 @@ namespace GUILeveling
 {
     public partial class PrintInnerForm : Form
     {
+
+        // 每段最后一站序号
+        private int stationNo;
+        // 每段距离
+        private double distance;
+        // 每段观测高差
+        private double realElevation;
+        // 每段改正数
+        private double correction;
+        // 每段改正高差
+        private double correctedElevation;
+        // 高程
+        private double height;
+
         public PrintInnerForm()
         {
             InitializeComponent();
             SetDGVFormat();
             PrintDGVFirstRow();
-            try
-            {
-                PrintToDGV();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("程序出现异常", "ERRO", MessageBoxButtons.OK);
-                this.Close();
-            }
+            PrintDGVBody();
+            PrintResult();
         }
 
         public PrintInnerForm(System.Windows.Forms.Form prtFrm)
@@ -60,24 +67,21 @@ namespace GUILeveling
             dataGridView1.Rows[0].Cells[6].Value = MainForm.beginHeight.ToString("f3");
         }
 
-        // 打印内容
-        private void PrintDGVBody(string innerData)
+        private void GetData()
         {
-            if (innerData == null || innerData == string.Empty)
-            {
-                dataGridView1.Rows.Add();
-                dataGridView1.Rows.Add();
-                return;
-            }
-            string[] innerDataSet = innerData.Split();
-            int segmentNo = int.Parse(innerDataSet[0]);
-            double distance = double.Parse(innerDataSet[1]);
-            double realElevation = double.Parse(innerDataSet[2]);
-            double correction = double.Parse(innerDataSet[3]);
-            double correctedElevation = double.Parse(innerDataSet[4]);
-            int stationNo = int.Parse(innerDataSet[5]);
-            double height = double.Parse(innerDataSet[6]);
+            stationNo = MainForm.GetStationNo(MainForm.pl);
+            distance = MainForm.GetDistance(MainForm.pl);
+            realElevation = MainForm.GetObservedElevation(MainForm.pl);
+            correction = MainForm.GetCorrection(MainForm.pl);
+            correctedElevation = MainForm.GetCorrectedHeight(MainForm.pl);
+            height = MainForm.GetHeight(MainForm.pl);
 
+            MainForm.UpdateIndex(MainForm.pl);
+        }
+
+        // 把数据写入dgv，传入一个段号参数
+        private void PrintDataToDGV(int segmentNo)
+        {
             int index = dataGridView1.Rows.Add();
             dataGridView1.Rows[index].Cells[0].Value = segmentNo.ToString();
             dataGridView1.Rows[index].Cells[2].Value = distance.ToString("f3");
@@ -90,33 +94,45 @@ namespace GUILeveling
             dataGridView1.Rows[index].Cells[6].Value = height.ToString("f3");
         }
 
-        // 打印结果
-        private void PrintResult(string innerData)
+        // 打印内容
+        private void PrintDGVBody()
         {
+            for (int segmentNo = 1; segmentNo <= MainForm.segment; ++segmentNo)
+            {
+                GetData();
+                PrintDataToDGV(segmentNo);
+            }
+        }
+
+        // 打印结果
+        private void PrintResult()
+        {
+            string innerData = "";
+            bool status = MainForm.GetInnerResult(MainForm.pl, ref innerData);
             string[] innerDataSet = innerData.Split();
             // 结果：闭合差部分
             string closureData = "f = ";
             // 高差之和
-            closureData += innerDataSet[0];
+            closureData += double.Parse(innerDataSet[0]).ToString("f3");
             closureData += " + ";
             // 起始高程
-            closureData += innerDataSet[1];
+            closureData += double.Parse(innerDataSet[1]).ToString("f3");
             closureData += " - ";
             // 终点高程
-            closureData += innerDataSet[2];
+            closureData += double.Parse(innerDataSet[2]).ToString("f3");
             closureData += " = ";
             // 闭合差的值
-            closureData += innerDataSet[3];
+            closureData += double.Parse(innerDataSet[3]).ToString("f3");
             closureData += " (mm) ";
             closureLabel.Text = closureData;
 
             // 结果：限差部分
             string tolerance = "f限 = ±20√";
             // 总距离
-            tolerance += innerDataSet[4];
+            tolerance += double.Parse(innerDataSet[4]).ToString("f3");
             tolerance += " = ";
             // 限差的值
-            tolerance += innerDataSet[5];
+            tolerance += double.Parse(innerDataSet[5]).ToString("f3");
             toleranceLabel.Text = tolerance;
 
             // 闭合差和限差的关系:  < or >
@@ -126,31 +142,5 @@ namespace GUILeveling
             relationLabel.Text = relation;
         }
 
-        // 每测段数据占两行
-        // 这儿出现的bug，头痛两天了
-        // FUUUUUUUUck
-        private void PrintToDGV()
-        {
-            for (int segment = 1; segment <= MainForm.segment; ++segment)
-            {
-                string innerData = "蛤蛤";
-                // 可能是innerData没有读全数据，造成split后，访问空
-                bool temp = MainForm.GetInnerData(MainForm.pl, ref innerData);
-                if (temp)
-                {
-                    PrintDGVBody(innerData);
-                }
-                else // data traverse at end
-                {
-                    if (segment != MainForm.segment)
-                    {
-                        statusLabel.Text = "false";
-                        return;
-                    }
-                    PrintResult(innerData);
-                    return;
-                }
-            }
-        }
     }
 }

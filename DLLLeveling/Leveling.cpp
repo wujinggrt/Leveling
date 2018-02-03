@@ -425,46 +425,6 @@ Leveling
 		return true;
 	}
 
-	bool Leveling::CSharpGetInnerData(char *& data)
-	{
-		// for test
-		// 1 2 3 4 5 6 7 8 9 10 11 12
-		string s_temp;
-		// 在WinForm中，头行（即是包含起始站号和高程第一行）已经输出
-		// 不用在写入
-		// 第*status + 1测段数据
-		/*if (!distance_of_subsegment.empty())
-		return true;
-		for (auto &e : distance_of_subsegment)
-		{
-		s_temp += to_string(e);
-		s_temp += " ";
-		}
-		strcpy_s(data, s_temp.size() + 1, s_temp.c_str());
-		return true;*/
-		bool b_temp;
-		if (status < segment_count)
-		{
-			b_temp = CSharpSaveBodyInnerInfoToString(s_temp);
-			++status;
-			if (b_temp)
-			{
-				strcpy_s(data, s_temp.size() + 1, s_temp.c_str());
-				return true;
-			} else
-			{
-				return false;
-			}
-		}
-		b_temp = CSharpSaveEndInnerInfoToString(s_temp);
-		if (b_temp)
-		{
-			strcpy_s(data, s_temp.size() + 1, s_temp.c_str());
-		}
-		status = 0;
-		return false;
-	}
-
 	int Leveling::CSharpGetStationCount() const
 	{
 		return station_count;
@@ -584,154 +544,6 @@ Leveling
 		}
 	}
 
-#ifndef NDEBUG
-
-	bool Leveling::CSharpTestOutputInner(char *& data) const
-	{
-		string info;
-		// 点名
-		info += to_string(station.size()) + " ";
-		for (auto &i : station)
-		{
-			info += to_string(i) + " ";
-		}
-		// 距离
-		info += to_string(distance_of_subsegment.size()) + " ";
-		for (auto &d : distance_of_subsegment)
-		{
-			info += to_string(d) + " ";
-		}
-		// 实测高差
-		info += to_string(observation_elevation_difference_of_subsegment.size()) + " ";
-		for (auto &e : observation_elevation_difference_of_subsegment)
-		{
-			info += to_string(e) + " ";
-		}
-		// 改正数
-		info += to_string(correction_of_subsegment.size()) + " ";
-		for (auto &e : correction_of_subsegment)
-		{
-			info += to_string(e) + " ";
-		}
-		// 改正后高差
-		info += to_string(corrected_observation_elevation_difference_of_subsegment.size()) + " ";
-		for (auto &e : corrected_observation_elevation_difference_of_subsegment)
-		{
-			info += to_string(e) + " ";
-		}
-		// 高程
-		info += to_string(height.size()) + " ";
-		for (auto &e : height)
-		{
-			info += to_string(e) + " ";
-		}
-		strcpy_s(data, info.size() + 1, info.c_str());
-		return true;
-	}
-
-	bool Leveling::CSharpTestGetStation(char *& data) const
-	{
-		if (station.size() == 0)
-		{
-			return false;
-		}
-		string info;
-		// 点名
-		info += to_string(station.size()) + " ";
-		for (auto &i : station)
-		{
-			info += to_string(i) + " ";
-		}
-		info += to_string(closure) + " ";
-		strcpy_s(data, info.size() + 1, info.c_str());
-		return true;
-	}
-
-	bool Leveling::CSharpTestGetDistance(char *& data) const
-	{
-		if (distance_of_subsegment.size() == 0)
-		{
-			return false;
-		}
-		string info;
-		// 距离
-		info += to_string(distance_of_subsegment.size()) + " ";
-		for (auto &d : distance_of_subsegment)
-		{
-			info += to_string(d) + " ";
-		}
-		strcpy_s(data, info.size() + 1, info.c_str());
-		return true;
-	}
-
-	bool Leveling::CSharpTestGetRealElevation(char *& data) const
-	{
-		if (observation_elevation_difference_of_subsegment.size() == 0)
-		{
-			return false;
-		}
-		string info;
-		// 实测高差
-		info += to_string(observation_elevation_difference_of_subsegment.size()) + " ";
-		for (auto &e : observation_elevation_difference_of_subsegment)
-		{
-			info += to_string(e) + " ";
-		}
-		strcpy_s(data, info.size() + 1, info.c_str());
-		return true;
-	}
-
-	bool Leveling::CSharpTestGetCorrection(char *& data) const
-	{
-		if (correction_of_subsegment.size() == 0)
-		{
-			return false;
-		}
-		string info;
-		// 改正数
-		info += to_string(correction_of_subsegment.size()) + " ";
-		for (auto &e : correction_of_subsegment)
-		{
-			info += to_string(e) + " ";
-		}
-		strcpy_s(data, info.size() + 1, info.c_str());
-		return true;
-	}
-
-	bool Leveling::CSharpTestGetCorrectedHeight(char *& data) const
-	{
-		if (corrected_observation_elevation_difference_of_subsegment.size() == 0)
-		{
-			return false;
-		}
-		string info;
-		// 改正后高差
-		info += to_string(corrected_observation_elevation_difference_of_subsegment.size()) + " ";
-		for (auto &e : corrected_observation_elevation_difference_of_subsegment)
-		{
-			info += to_string(e) + " ";
-		}
-		strcpy_s(data, info.size() + 1, info.c_str());
-		return true;
-	}
-
-	bool Leveling::CSharpTestGetHeight(char *& data) const
-	{
-		if (height.size() == 0)
-		{
-			return false;
-		}
-		string info;
-		// 高程
-		info += to_string(height.size()) + " ";
-		for (auto &e : height)
-		{
-			info += to_string(e) + " ";
-		}
-		strcpy_s(data, info.size() + 1, info.c_str());
-		return true;
-	}
-
 	int Leveling::CSharpGetStationNo() const
 	{
 		return station[index];
@@ -762,23 +574,20 @@ Leveling
 		return height[index];
 	}
 
-	bool Leveling::CSharpUpdateIndex(int &segment)
+	int Leveling::CSharpUpdateIndex()
 	{
 		++index;
 		if (index < segment_count)
 		{
-			segment = index;
-			return true;
+			return index;
 		}
 		else
 		{
 			index = 0;
-			segment = index;
-			return false;
+			return index;
 		}
 	}
 	
-#endif
 	void Leveling::ComputeData(shared_ptr<LevelingData> &spld)
 	{
 		// 用来辅助计算累计视距差
@@ -1125,64 +934,9 @@ Leveling
 	//	return true;
 	//}
 
-	bool Leveling::CSharpSaveBodyInnerInfoToString(std::string & temp) const
+	bool Leveling::CSharpGetInnerResult(char* &data)  const
 	{
-		// 第一行
-		// 段号 
-		temp += to_string((status + 1));
-		temp += " ";
-		// 距离 / m
-		if (status >= distance_of_subsegment.size())
-		{
-			return false;
-		}
-		temp += to_string(distance_of_subsegment[status]);
-		temp += " ";
-		// 实测高差 / m
-		if (status >= observation_elevation_difference_of_subsegment.size())
-		{
-			return false;
-		}
-		temp += to_string(
-			observation_elevation_difference_of_subsegment[status]
-		);
-		temp += " ";
-		// 改正数 / mm
-		if (status >= correction_of_subsegment.size())
-		{
-			return false;
-		}
-		temp += to_string(correction_of_subsegment[status]);
-		temp += " ";
-		// 改正后高差/m 
-		if (status >= corrected_observation_elevation_difference_of_subsegment.size())
-		{
-			return false;
-		}
-		temp += to_string(
-			corrected_observation_elevation_difference_of_subsegment[status]
-		);
-		temp += " ";
-		// 第二行
-		// 测站序号：这个测段的最后一站
-		if (status >= station.size())
-		{
-			return false;
-		}
-		temp += to_string(station[status]);
-		temp += " ";
-		// 由于height第一个数是beginHeight，故应status + 1
-		if (status >= height.size())
-		{
-			return false;
-		}
-		temp += to_string(height[status + 1]);
-		temp += " ";
-		return true;
-	}
-
-	bool Leveling::CSharpSaveEndInnerInfoToString(string & s)  const
-	{
+		string s;
 		// s += " 闭合差: f闭 = ";
 		s += to_string(
 			this->accumulation_of_observation_elevation_difference);
@@ -1213,6 +967,7 @@ Leveling
 		s += to_string(uncertain_station_point);
 		s += " = ";
 		s += to_string(unit_weight);*/
+		strcpy_s(data, s.size() + 1, s.c_str());
 		return true;
 	}
 }

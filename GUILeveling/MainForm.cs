@@ -79,11 +79,6 @@ namespace GUILeveling
             , double endHeight
             , int stationCount
             , string stationNo);
-        // 获得的数据是引用，
-        // 获取的事每一段（两行）数据
-        // get Inner data
-        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetInnerData", CharSet = CharSet.Ansi)]
-        public static extern bool GetInnerData(IntPtr pl, ref string data);
         // trverse
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "Traverse", CharSet = CharSet.Ansi)]
         public static extern bool Traverse(IntPtr pl);
@@ -141,21 +136,35 @@ namespace GUILeveling
         // get 高差中数
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetMean", CharSet = CharSet.Ansi)]
         public static extern double GetMean(IntPtr pl);
-        // 在Update, 显示文本之后，
-        // 把data_prev置位为原来的位置，
-        // 避免以后Input出现的linked list结构混乱
+        // 避免以后输入出现的链表结构混乱
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "DataPrevReset", CharSet = CharSet.Ansi)]
         public static extern void DataPrevReset(IntPtr pl);
-        // data_prev reset to data_head
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "DataPrevResetToHead", CharSet = CharSet.Ansi)]
         public static extern void DataPrevResetToHead(IntPtr pl);
         //获取测站数
-        // need to correct the interface
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetStationCount", CharSet = CharSet.Ansi)]
         public static extern int GetStationCount(IntPtr pl);
-        // read and deal data from txt file
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "DealTxtData", CharSet = CharSet.Ansi)]
         public static extern bool DealTxtData(IntPtr pl, string fileName);
+
+        // 获取内业数据，index索引的数据
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetStationNo", CharSet = CharSet.Ansi)]
+        public static extern int GetStationNo(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetDistance", CharSet = CharSet.Ansi)]
+        public static extern double GetDistance(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetObservedElevation", CharSet = CharSet.Ansi)]
+        public static extern double GetObservedElevation(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetCorrection", CharSet = CharSet.Ansi)]
+        public static extern double GetCorrection(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetCorrectedHeight", CharSet = CharSet.Ansi)]
+        public static extern double GetCorrectedHeight(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetHeight", CharSet = CharSet.Ansi)]
+        public static extern double GetHeight(IntPtr pl);
+	    // index指向下一个，到尾部重新返回首部
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "UpdateIndex", CharSet = CharSet.Ansi)]
+        public static extern int UpdateIndex(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetInnerResult", CharSet = CharSet.Ansi)]
+        public static extern bool GetInnerResult(IntPtr pl, ref string data);
         #endregion
 
         // use this to return the main form
