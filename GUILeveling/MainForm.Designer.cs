@@ -38,7 +38,6 @@
             this.readTxTBtn = new System.Windows.Forms.Button();
             this.ProcessInnerBtn = new System.Windows.Forms.Button();
             this.DataInnerPrintButton = new System.Windows.Forms.Button();
-            this.DataInnerOutputButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // DataInsertButton
@@ -113,7 +112,7 @@
             // 
             // readTxTBtn
             // 
-            this.readTxTBtn.Location = new System.Drawing.Point(109, 367);
+            this.readTxTBtn.Location = new System.Drawing.Point(109, 306);
             this.readTxTBtn.Name = "readTxTBtn";
             this.readTxTBtn.Size = new System.Drawing.Size(186, 55);
             this.readTxTBtn.TabIndex = 20;
@@ -141,22 +140,11 @@
             this.DataInnerPrintButton.UseVisualStyleBackColor = true;
             this.DataInnerPrintButton.Click += new System.EventHandler(this.DataInnerPrintButton_Click);
             // 
-            // DataInnerOutputButton
-            // 
-            this.DataInnerOutputButton.Location = new System.Drawing.Point(109, 306);
-            this.DataInnerOutputButton.Name = "DataInnerOutputButton";
-            this.DataInnerOutputButton.Size = new System.Drawing.Size(186, 55);
-            this.DataInnerOutputButton.TabIndex = 23;
-            this.DataInnerOutputButton.Text = "内业结果输出到txt";
-            this.DataInnerOutputButton.UseVisualStyleBackColor = true;
-            this.DataInnerOutputButton.Click += new System.EventHandler(this.DataInnerOutputButton_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(637, 481);
-            this.Controls.Add(this.DataInnerOutputButton);
             this.Controls.Add(this.DataInnerPrintButton);
             this.Controls.Add(this.ProcessInnerBtn);
             this.Controls.Add(this.readTxTBtn);
@@ -186,7 +174,6 @@
         private System.Windows.Forms.Button readTxTBtn;
         private System.Windows.Forms.Button ProcessInnerBtn;
         private System.Windows.Forms.Button DataInnerPrintButton;
-        private System.Windows.Forms.Button DataInnerOutputButton;
     }
 }
 

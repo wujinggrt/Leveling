@@ -44,7 +44,6 @@ Leveling
         , end_height(0.0)
         , accumulation_of_correction(0.0)
         // , height(std::vector<double>())
-        , status(0)
 		, index(0)
         {
             station.reserve(20);
@@ -425,6 +424,24 @@ Leveling
 		return true;
 	}
 
+	void Leveling::CSharpClearInner()
+	{
+		segment_count = 0;
+		station.clear();
+		correction_of_subsegment.clear();
+		distance_of_subsegment.clear();
+		observation_elevation_difference_of_subsegment.clear();
+		corrected_observation_elevation_difference_of_subsegment.clear();
+		accumulation_of_observation_elevation_difference = 0;
+		distance = 0;
+		closure = 0;
+		start_height = 0;
+		end_height = 0;
+		height.clear();
+		accumulation_of_correction = 0;
+		index = 0;
+	}
+
 	int Leveling::CSharpGetStationCount() const
 	{
 		return station_count;
@@ -773,33 +790,27 @@ Leveling
 			return false;
 		}
 		// 初始化临时高差（mm)
-		double temp_observation_elevation_difference = 0;
+		double temp_observation_elevation_difference = 0.0;
 		// 遍历所有node，计算高差
-		for (int i = 0; i < station_count && sp != data_head; i++)
+		for (int i = 0; i < station_count; i++)
 		{
-			//临时(mm),4舍6入5取偶?
 			temp_observation_elevation_difference
 				+= sp->mean;
-			// 总距离(m)
 			distance
 				+= (static_cast<double>(sp->front_distance)
 					+ static_cast<double>(sp->back_distance))
-				/ 10;
+				/ 10.0;
 			sp = sp->next;
 		}
-		//高差（m）
-		accumulation_of_observation_elevation_difference
-			= temp_observation_elevation_difference
-			/ 1000;
+		double tempValue = (start_height - end_height) * 1000;
 		//高程闭合差(mm)
-		closure
-			= (accumulation_of_observation_elevation_difference
-				- end_height
-				+ start_height)
-			* 1000;
+		closure =
+			temp_observation_elevation_difference
+			+ tempValue;
 		//改正数(mm)
 		correction = -closure;
-
+		/*accumulation_of_observation_elevation_difference =
+			temp_observation_elevation_difference;*/
 		return true;
 	}
 
@@ -828,21 +839,19 @@ Leveling
 		// 记录每一段的高差，存入subObserveElevationDifference中;
 		double temp_for_elevation = 0.0;
 		// 写入每段距离、每段高差的数据，存入数组
-		for (int i = 0, j = 0; i < station_count && sp != data_head; i++)
+		for (int i = 0, j = 0; i < station_count; i++)
 		{
 			temp_distance
 				+= (static_cast<double>(sp->front_distance)
-					+ static_cast<double>(sp->back_distance))
-				/ 10;
+					+ static_cast<double>(sp->back_distance));
 			temp_for_elevation
-				+= static_cast<double>(sp->mean)
-				/ 1000;
+				+= sp->mean;
 			if (i == station[j] - 1)
 			{
 				// 存储这一的测段距离(m)
-				distance_of_subsegment.push_back(temp_distance);
+				distance_of_subsegment.push_back(temp_distance / 10);
 				// 存储这一段的高差
-				observation_elevation_difference_of_subsegment.push_back(temp_for_elevation);
+				observation_elevation_difference_of_subsegment.push_back(temp_for_elevation / 1000.0);
 				// 重置测段距离
 				temp_distance = 0.0;
 				// 重置测段高差
@@ -889,6 +898,13 @@ Leveling
 		for (auto &t : correction_of_subsegment)
 		{
 			accumulation_of_correction += t;
+		}
+		accumulation_of_observation_elevation_difference = 0.0;
+		for (int i = 0; i < segment_count; ++i)
+		{
+			//高差值和（m）
+			accumulation_of_observation_elevation_difference +=
+				observation_elevation_difference_of_subsegment[i];
 		}
 		return true;
 	}
@@ -949,8 +965,9 @@ Leveling
 		s += " ";
 		s += to_string(distance);
 		s += " ";
-		double value = 20 * sqrt(distance / 1000);
-		double num_temp = ReserveDecimal(value, 2);
+		double value = sqrt(distance / 1000);
+		value *= 20;
+		double num_temp = ReserveDecimal(value, 5);
 		s += to_string(num_temp);
 		if (closure <= num_temp)
 		{
@@ -984,8 +1001,9 @@ Leveling
 	}
 	double Leveling::CSharpGetTolerance() const
 	{
-		double value = 20 * sqrt(distance / 1000);
-		double ret = ReserveDecimal(value, 2);
+		double value = sqrt(distance) / 1000;
+		value *= 20;
+		double ret = ReserveDecimal(value, 5);
 		return ret;
 	}
 	int Leveling::CSharpGetClosureRelation() const

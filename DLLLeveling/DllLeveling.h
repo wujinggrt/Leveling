@@ -59,6 +59,7 @@ class:DllLeveling
 		, double endHeight
 		, int stationCount
 		, const char* stationNo);
+	DLL_API void __stdcall ClearInner(Leveling* pl);
 	// 如果存在下一个，data_prev指向它
 	DLL_API bool __stdcall Traverse(Leveling* pl);
 

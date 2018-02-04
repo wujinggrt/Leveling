@@ -110,7 +110,7 @@ namespace GUILeveling
             // 结果：闭合差部分
             string closureData = "f = ";
             // 高差之和
-            closureData += MainForm.GetAccumulationValue(MainForm.pl).ToString("f3");
+            closureData += MainForm.GetAccumulationValue(MainForm.pl).ToString("f5");
             closureData += " + ";
             // 起始高程
             closureData += MainForm.beginHeight.ToString("f3");
@@ -119,7 +119,7 @@ namespace GUILeveling
             closureData += MainForm.endHeight.ToString("f3");
             closureData += " = ";
             // 闭合差的值
-            closureData += MainForm.GetClosure(MainForm.pl).ToString("f3");
+            closureData += MainForm.GetClosure(MainForm.pl).ToString("f5");
             closureData += " (mm) ";
             closureLabel.Text = closureData;
 
@@ -129,7 +129,7 @@ namespace GUILeveling
             tolerance += MainForm.GetTotalDistance(MainForm.pl).ToString("f3");
             tolerance += " = ";
             // 限差的值
-            tolerance += MainForm.GetTolerance(MainForm.pl).ToString("f3");
+            tolerance += MainForm.GetTolerance(MainForm.pl).ToString("f3") + "(mm)";
             toleranceLabel.Text = tolerance;
 
             // 闭合差和限差的关系:  < or >

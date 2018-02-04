@@ -26,6 +26,21 @@ namespace GUILeveling
 
         private void processBtn_Click(object sender, EventArgs e)
         {
+            if(MainForm.innerProcessStatus == true)
+            {
+                DialogResult dr = MessageBox.Show("此次行为将会清空上次数据，是否继续？"
+                   , "提示"
+                   , MessageBoxButtons.OKCancel
+                   , MessageBoxIcon.Question);
+                if (dr == DialogResult.OK)
+                {
+                    MainForm.ClearInner(MainForm.pl);
+                }
+                else
+                {
+                    return;
+                }
+            }
             if (
                 beginBox.Text == null
                 || beginBox.Text == string.Empty
@@ -49,6 +64,7 @@ namespace GUILeveling
             if (MainForm.segment > MainForm.stationCount)
             {
                 MessageBox.Show("超出总测站数量！", "ERRO", MessageBoxButtons.OK);
+                MainForm.innerProcessStatus = false;
                 return;
             }
             // 每测段最后一站
@@ -63,11 +79,13 @@ namespace GUILeveling
             {
                 MessageBox.Show("内业数据处理完成！", "提示", MessageBoxButtons.OK);
                 this.Close();
+                MainForm.innerProcessStatus = true;
                 return;
             }
             else
             {
                 MessageBox.Show("失败！", "ERRO", MessageBoxButtons.OK);
+                MainForm.innerProcessStatus = false;
                 return;
             }
         }

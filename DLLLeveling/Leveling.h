@@ -169,6 +169,7 @@ Leveling
 			, double endHeight
 			, int stationCount
 			, const char* stationNo);
+		void CSharpClearInner();
 
 		// 获取测量数据参数，值为data_prev指向的值
 		int CSharpGetStationCount() const;
@@ -321,8 +322,6 @@ Leveling
         std::vector<double> height;
 		// 累计改正数
         double accumulation_of_correction;  
-        // 输出内业数据的辅助判断  
-	    int status;  
 		// 为CSharp输出而遍历各个容器的下标
 		int index;
 

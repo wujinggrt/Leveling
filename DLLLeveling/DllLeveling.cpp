@@ -124,6 +124,11 @@ class:DllLeveling
 			, stationNo);
 	}
 
+	void __stdcall ClearInner(Leveling * pl)
+	{
+		return pl->CSharpClearInner();
+	}
+
 	bool __stdcall Traverse(Leveling * pl)
 	{
 		return pl->CSharpTraverse();
