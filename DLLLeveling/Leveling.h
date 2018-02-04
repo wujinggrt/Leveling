@@ -229,6 +229,13 @@ Leveling
 
 		// 添加末尾达到信息
 		bool CSharpGetInnerResult(char* &data) const;
+
+		double CSharpGetAccumulationValue() const;
+		double CSharpGetClosure() const;
+		double CSharpGetTotalDistance() const;
+		double CSharpGetTolerance() const;
+		// 闭合差小于限差返回1，否则0
+		int CSharpGetClosureRelation() const;
     private:
 
 		// 数据处理

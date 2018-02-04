@@ -165,6 +165,18 @@ namespace GUILeveling
         public static extern int UpdateIndex(IntPtr pl);
         [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetInnerResult", CharSet = CharSet.Ansi)]
         public static extern bool GetInnerResult(IntPtr pl, ref string data);
+
+        // 获得内业结果
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetAccumulationValue", CharSet = CharSet.Ansi)]
+        public static extern double GetAccumulationValue(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetClosure", CharSet = CharSet.Ansi)]
+        public static extern double GetClosure(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetTotalDistance", CharSet = CharSet.Ansi)]
+        public static extern double GetTotalDistance(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetTolerance", CharSet = CharSet.Ansi)]
+        public static extern double GetTolerance(IntPtr pl);
+        [DllImport(@"F:\Workspace\Leveling\nowWork\Leveling\Debug\DllLeveling.dll", EntryPoint = "GetClosureRelation", CharSet = CharSet.Ansi)]
+        public static extern int GetClosureRelation(IntPtr pl);
         #endregion
 
         // use this to return the main form
@@ -232,8 +244,12 @@ namespace GUILeveling
             insertForm.Show();
         }
 
+        // 先清空当前数据，然后在添加
         private void readTxTBtn_Click(object sender, EventArgs e)
         {
+            MainForm.DeleteAll(ref MainForm.pl);
+            stationCount = 0;
+
             OpenFileDialog fd = new OpenFileDialog();
             fd.Filter = "txt文件(*.txt)|*.txt|dat文件(*.dat)|*.dat"; // 提示1|类型1
             string strPath;//文件完整的路径名
@@ -303,12 +319,6 @@ namespace GUILeveling
             {
                 printInner.Show();
             }
-        }
-
-        private void testBtn_Click(object sender, EventArgs e)
-        {
-            TestForm test = new TestForm(this);
-            test.Show();
         }
     }
 

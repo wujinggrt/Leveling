@@ -282,4 +282,24 @@ class:DllLeveling
 	{
 		return pl->CSharpGetInnerResult(data);
 	}
+	double __stdcall GetAccumulationValue(Leveling * pl)
+	{
+		return pl->CSharpGetAccumulationValue();
+	}
+	double __stdcall GetClosure(Leveling * pl)
+	{
+		return pl->CSharpGetClosure();
+	}
+	double __stdcall GetTotalDistance(Leveling * pl)
+	{
+		return pl->CSharpGetTotalDistance();
+	}
+	double __stdcall GetTolerance(Leveling * pl)
+	{
+		return pl->CSharpGetTolerance();
+	}
+	int __stdcall GetClosureRelation(Leveling * pl)
+	{
+		return pl->CSharpGetClosureRelation();
+	}
 }

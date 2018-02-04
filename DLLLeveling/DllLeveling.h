@@ -119,6 +119,13 @@ class:DllLeveling
 	// index指向下一个，到尾部重新返回首部
 	DLL_API int __stdcall UpdateIndex(Leveling* pl);
 	DLL_API bool __stdcall GetInnerResult(Leveling* pl, char* &data);
+
+	// 内业数据获取
+	DLL_API double __stdcall GetAccumulationValue(Leveling* pl);
+	DLL_API double __stdcall GetClosure(Leveling* pl);
+	DLL_API double __stdcall GetTotalDistance(Leveling* pl);
+	DLL_API double __stdcall GetTolerance(Leveling* pl);
+	DLL_API int __stdcall GetClosureRelation(Leveling* pl);
 }
 
 #endif

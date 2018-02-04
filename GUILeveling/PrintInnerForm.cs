@@ -107,39 +107,105 @@ namespace GUILeveling
         // 打印结果
         private void PrintResult()
         {
-            string innerData = "";
-            bool status = MainForm.GetInnerResult(MainForm.pl, ref innerData);
-            string[] innerDataSet = innerData.Split();
             // 结果：闭合差部分
             string closureData = "f = ";
             // 高差之和
-            closureData += double.Parse(innerDataSet[0]).ToString("f3");
+            closureData += MainForm.GetAccumulationValue(MainForm.pl).ToString("f3");
             closureData += " + ";
             // 起始高程
-            closureData += double.Parse(innerDataSet[1]).ToString("f3");
+            closureData += MainForm.beginHeight.ToString("f3");
             closureData += " - ";
             // 终点高程
-            closureData += double.Parse(innerDataSet[2]).ToString("f3");
+            closureData += MainForm.endHeight.ToString("f3");
             closureData += " = ";
             // 闭合差的值
-            closureData += double.Parse(innerDataSet[3]).ToString("f3");
+            closureData += MainForm.GetClosure(MainForm.pl).ToString("f3");
             closureData += " (mm) ";
             closureLabel.Text = closureData;
 
             // 结果：限差部分
             string tolerance = "f限 = ±20√";
             // 总距离
-            tolerance += double.Parse(innerDataSet[4]).ToString("f3");
+            tolerance += MainForm.GetTotalDistance(MainForm.pl).ToString("f3");
             tolerance += " = ";
             // 限差的值
-            tolerance += double.Parse(innerDataSet[5]).ToString("f3");
+            tolerance += MainForm.GetTolerance(MainForm.pl).ToString("f3");
             toleranceLabel.Text = tolerance;
 
             // 闭合差和限差的关系:  < or >
             string relation = "f闭 ";
-            relation += innerDataSet[6];
+            int relationStatus = MainForm.GetClosureRelation(MainForm.pl);
+            if (relationStatus == 1)
+            {
+                relation += " < ";
+            }
+            else
+            {
+                relation += " > ";
+            }
             relation += " f限";
             relationLabel.Text = relation;
+        }
+
+        private void outputExcelBtn_Click(object sender, EventArgs e)
+        {
+            ProgressForm pg = new ProgressForm(this
+                , dataGridView1.RowCount * dataGridView1.ColumnCount);
+            // 默认fileName
+            string fileName = "蛤";
+            string saveFileName = "蛙蛙";
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.DefaultExt = "xlsx";
+            saveDialog.Filter = "Excel文件|*.xlsx";
+            // 这里就传入到了文本框上
+            saveDialog.FileName = fileName;
+            saveDialog.ShowDialog();
+            saveFileName = saveDialog.FileName;
+            if (saveFileName.IndexOf(":") < 0) return; //被点了取消
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            if (xlApp == null)
+            {
+                MessageBox.Show("无法创建Excel对象，您的电脑可能未安装Excel");
+                return;
+            }
+            Microsoft.Office.Interop.Excel.Workbooks workbooks = xlApp.Workbooks;
+            Microsoft.Office.Interop.Excel.Workbook workbook = workbooks.Add(Microsoft.Office.Interop.Excel.XlWBATemplate.xlWBATWorksheet);
+            Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Worksheets[1];//取得sheet1 
+            //写入标题      
+            /*
+            for (int i = 0; i < dataGridView1.ColumnCount; i++)
+            {
+                worksheet.Cells[1, i + 1] = dataGridView1.Columns[i].HeaderText;
+            }
+            */
+            //写入数值
+            pg.Show();
+            for (int r = 0; r < dataGridView1.Rows.Count; r++)
+            {
+                for (int i = 0; i < dataGridView1.ColumnCount; i++)
+                {
+                    worksheet.Cells[r + 2, i + 1] = dataGridView1.Rows[r].Cells[i].Value;
+                    pg.Increase(1);
+                }
+                // DoEvent() 相当于多线程，使得在写入xlsw的时候，这个窗口也能够进行
+                System.Windows.Forms.Application.DoEvents();
+            }
+            worksheet.Columns.EntireColumn.AutoFit();//列宽自适应
+            if (saveFileName != "")
+            {
+                try
+                {
+                    workbook.Saved = true;
+                    workbook.SaveCopyAs(saveFileName);  //fileSaved = true;     
+                }
+                catch (Exception ex)
+                {//fileSaved = false;                      
+                    MessageBox.Show("导出文件时出错,文件可能正被打开！\n" + ex.Message);
+                }
+            }
+            MessageBox.Show(fileName + "资料保存成功", "提示", MessageBoxButtons.OK);
+            xlApp.Quit();
+            GC.Collect();//强行销毁   
         }
 
     }

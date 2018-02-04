@@ -42,7 +42,6 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.refreshBtn = new System.Windows.Forms.Button();
             this.outputExcelBtn = new System.Windows.Forms.Button();
             this.QuitButton = new System.Windows.Forms.Button();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -164,15 +163,6 @@
             this.Column1.ReadOnly = true;
             this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // refreshBtn
-            // 
-            this.refreshBtn.Location = new System.Drawing.Point(784, 553);
-            this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(100, 44);
-            this.refreshBtn.TabIndex = 30;
-            this.refreshBtn.Text = "刷新";
-            this.refreshBtn.UseVisualStyleBackColor = true;
-            // 
             // outputExcelBtn
             // 
             this.outputExcelBtn.Location = new System.Drawing.Point(784, 623);
@@ -181,6 +171,7 @@
             this.outputExcelBtn.TabIndex = 29;
             this.outputExcelBtn.Text = "输出excel";
             this.outputExcelBtn.UseVisualStyleBackColor = true;
+            this.outputExcelBtn.Click += new System.EventHandler(this.outputExcelBtn_Click);
             // 
             // QuitButton
             // 
@@ -221,7 +212,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(991, 792);
+            this.ClientSize = new System.Drawing.Size(1234, 788);
             this.Controls.Add(this.relationLabel);
             this.Controls.Add(this.toleranceLabel);
             this.Controls.Add(this.label4);
@@ -230,7 +221,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.refreshBtn);
             this.Controls.Add(this.outputExcelBtn);
             this.Controls.Add(this.QuitButton);
             this.Controls.Add(this.dataGridView1);
@@ -258,7 +248,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.Button refreshBtn;
         private System.Windows.Forms.Button outputExcelBtn;
         private System.Windows.Forms.Button QuitButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;

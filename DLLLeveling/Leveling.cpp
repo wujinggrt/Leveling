@@ -571,7 +571,7 @@ Leveling
 
 	double Leveling::CSharpGetHeight() const
 	{
-		return height[index];
+		return height[index + 1];
 	}
 
 	int Leveling::CSharpUpdateIndex()
@@ -939,7 +939,7 @@ Leveling
 		string s;
 		// s += " 闭合差: f闭 = ";
 		s += to_string(
-			this->accumulation_of_observation_elevation_difference);
+			accumulation_of_observation_elevation_difference);
 		s += " ";
 		s += to_string(start_height);
 		s += " ";
@@ -969,5 +969,34 @@ Leveling
 		s += to_string(unit_weight);*/
 		strcpy_s(data, s.size() + 1, s.c_str());
 		return true;
+	}
+	double Leveling::CSharpGetAccumulationValue() const
+	{
+		return accumulation_of_observation_elevation_difference;
+	}
+	double Leveling::CSharpGetClosure() const
+	{
+		return closure;
+	}
+	double Leveling::CSharpGetTotalDistance() const
+	{
+		return distance;
+	}
+	double Leveling::CSharpGetTolerance() const
+	{
+		double value = 20 * sqrt(distance / 1000);
+		double ret = ReserveDecimal(value, 2);
+		return ret;
+	}
+	int Leveling::CSharpGetClosureRelation() const
+	{
+		if (closure < CSharpGetTolerance())
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
 	}
 }
