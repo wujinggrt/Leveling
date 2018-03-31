@@ -17,6 +17,10 @@ namespace GUILeveling
         {
             InitializeComponent();
             PrintToDataGridView();
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.AllowUserToResizeRows = false;
         }
 
         public PrintOuterForm(System.Windows.Forms.Form ParentForm)
