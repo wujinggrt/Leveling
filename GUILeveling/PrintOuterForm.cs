@@ -16,11 +16,9 @@ namespace GUILeveling
         public PrintOuterForm()
         {
             InitializeComponent();
+            PrintHeadText();
             PrintToDataGridView();
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.AllowUserToResizeColumns = false;
-            dataGridView1.AllowUserToResizeRows = false;
+            SetFormat();
         }
 
         public PrintOuterForm(System.Windows.Forms.Form ParentForm)
@@ -30,14 +28,57 @@ namespace GUILeveling
             Location = ParentForm.Location;
         }
 
+        private void PrintHeadText()
+        {
+            int y = dataGridView1.Rows.Add();
+            dataGridView1.Rows[y].Cells[0].Value = "点";
+            dataGridView1.Rows[y].Cells[1].Value = "（后）上丝";
+            dataGridView1.Rows[y].Cells[2].Value = "（前）上丝";
+            dataGridView1.Rows[y].Cells[3].Value = "方";
+            dataGridView1.Rows[y].Cells[4].Value = "水准尺中丝读数";
+            dataGridView1.Rows[y].Cells[5].Value = "水准尺中丝读数";
+            dataGridView1.Rows[y].Cells[6].Value = "红黑";
+            dataGridView1.Rows[y].Cells[7].Value = "平均";
+
+            y = dataGridView1.Rows.Add();
+            dataGridView1.Rows[y].Cells[0].Value = "";
+            dataGridView1.Rows[y].Cells[1].Value = "（后）下丝";
+            dataGridView1.Rows[y].Cells[2].Value = "（后）下丝";
+            dataGridView1.Rows[y].Cells[3].Value = "";
+            dataGridView1.Rows[y].Cells[4].Value = "";
+            dataGridView1.Rows[y].Cells[5].Value = "";
+            dataGridView1.Rows[y].Cells[6].Value = "";
+            dataGridView1.Rows[y].Cells[7].Value = "";
+
+            y = dataGridView1.Rows.Add();
+            dataGridView1.Rows[y].Cells[0].Value = "";
+            dataGridView1.Rows[y].Cells[1].Value = "后视距离";
+            dataGridView1.Rows[y].Cells[2].Value = "前视距离";
+            dataGridView1.Rows[y].Cells[3].Value = "";
+            dataGridView1.Rows[y].Cells[4].Value = "黑面";
+            dataGridView1.Rows[y].Cells[5].Value = "红面";
+            dataGridView1.Rows[y].Cells[6].Value = "";
+            dataGridView1.Rows[y].Cells[7].Value = "";
+
+            y = dataGridView1.Rows.Add();
+            dataGridView1.Rows[y].Cells[0].Value = "号";
+            dataGridView1.Rows[y].Cells[1].Value = "前后视距差";
+            dataGridView1.Rows[y].Cells[2].Value = "累积视距差";
+            dataGridView1.Rows[y].Cells[3].Value = "向";
+            dataGridView1.Rows[y].Cells[4].Value = "";
+            dataGridView1.Rows[y].Cells[5].Value = "";
+            dataGridView1.Rows[y].Cells[6].Value = "面差";
+            dataGridView1.Rows[y].Cells[7].Value = "高差";
+
+
+        }
+
         private void PrintToDataGridView()
         {
             dataGridView1.AllowUserToAddRows = false;
 
             MainForm.DataPrevResetToHead(MainForm.pl);
             // format
-            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            dataGridView1.RowHeadersVisible = false;
             for (int stationNO = 1; MainForm.Traverse(MainForm.pl) && stationNO <= MainForm.stationCount; ++stationNO)
             {
                 MainForm.ld.backAbove = MainForm.GetBackAbove(MainForm.pl);
@@ -77,7 +118,7 @@ namespace GUILeveling
                 dataGridView1.Rows[y].Cells[4].Value = MainForm.ld.backBlackface.ToString();
                 dataGridView1.Rows[y].Cells[5].Value = MainForm.ld.backRedface.ToString();
                 dataGridView1.Rows[y].Cells[6].Value = MainForm.ld.backKBlackRed.ToString();
-                dataGridView1.Rows[y].Cells[7].Value = null;
+                dataGridView1.Rows[y].Cells[7].Value = "";
 
                 y = dataGridView1.Rows.Add();
                 dataGridView1.Rows[y].Cells[1].Value = MainForm.ld.backBelow.ToString();
@@ -86,7 +127,7 @@ namespace GUILeveling
                 dataGridView1.Rows[y].Cells[4].Value = MainForm.ld.forwardBlackface.ToString();
                 dataGridView1.Rows[y].Cells[5].Value = MainForm.ld.forwardRedface.ToString();
                 dataGridView1.Rows[y].Cells[6].Value = MainForm.ld.forwardKBlackRed.ToString();
-                dataGridView1.Rows[y].Cells[7].Value = null;
+                dataGridView1.Rows[y].Cells[7].Value = "";
 
                 y = dataGridView1.Rows.Add();
                 dataGridView1.Rows[y].Cells[1].Value = MainForm.ld.backDistance.ToString();
@@ -100,17 +141,25 @@ namespace GUILeveling
                 y = dataGridView1.Rows.Add();
                 dataGridView1.Rows[y].Cells[1].Value = MainForm.ld.disparityDifference.ToString();
                 dataGridView1.Rows[y].Cells[2].Value = MainForm.ld.accumulatedDifference.ToString();
-                dataGridView1.Rows[y].Cells[3].Value = null;
-                dataGridView1.Rows[y].Cells[4].Value = null;
-                dataGridView1.Rows[y].Cells[5].Value = null;
-                dataGridView1.Rows[y].Cells[6].Value = null;
-                dataGridView1.Rows[y].Cells[7].Value = null;
+                dataGridView1.Rows[y].Cells[3].Value = "";
+                dataGridView1.Rows[y].Cells[4].Value = "";
+                dataGridView1.Rows[y].Cells[5].Value = "";
+                dataGridView1.Rows[y].Cells[6].Value = "";
+                dataGridView1.Rows[y].Cells[7].Value = "";
             }
             MainForm.DataPrevResetToHead(MainForm.pl);
         }
 
-        // 对于progressBar增长值
-       
+        private void SetFormat()
+        {
+            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.ColumnHeadersVisible = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.AllowUserToResizeRows = false;
+        }
 
         private void QuitButton_Click(object sender, EventArgs e)
         {
